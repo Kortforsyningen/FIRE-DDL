@@ -1,34 +1,34 @@
-SET DEFINE OFF;
+﻿SET DEFINE OFF;
 --SQL Statement which produced this data:
 --
 --  SELECT * FROM FIRE_ADM.SRIDNAMESPACE;
 --
 Insert into SRIDNAMESPACE
-   (OBJECTID, BESKRIVELSE, NAMESPACE)
+   (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (1, 'Ingen beskrivelse', 'DK');
+   (1, 'DK', 'Ingen beskrivelse');
 Insert into SRIDNAMESPACE
-   (OBJECTID, BESKRIVELSE, NAMESPACE)
+   (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (2, 'Ingen beskrivelse', 'EPSG');
+   (2, 'EPSG', 'Ingen beskrivelse');
 Insert into SRIDNAMESPACE
-   (OBJECTID, BESKRIVELSE, NAMESPACE)
+   (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (3, 'Ingen beskrivelse', 'FO');
+   (3, 'FO', 'Ingen beskrivelse');
 Insert into SRIDNAMESPACE
-   (OBJECTID, BESKRIVELSE, NAMESPACE)
+   (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (4, 'Ingen beskrivelse', 'GL');
+   (4, 'GL', 'Ingen beskrivelse');
 Insert into SRIDNAMESPACE
-   (OBJECTID, BESKRIVELSE, NAMESPACE)
+   (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (5, 'Ingen beskrivelse', 'LOC');
+   (5, 'LOC', 'Ingen beskrivelse');
 Insert into SRIDNAMESPACE
-   (OBJECTID, BESKRIVELSE, NAMESPACE)
+   (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (6, 'Ingen beskrivelse', 'NKG');
+   (6, 'NKG', 'Ingen beskrivelse');
 Insert into SRIDNAMESPACE
-   (OBJECTID, BESKRIVELSE, NAMESPACE)
+   (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (7, 'Ingen beskrivelse', 'TS');
+   (7, 'TS', 'Ingen beskrivelse');
 COMMIT;

@@ -1,718 +1,718 @@
-SET DEFINE OFF;
+﻿SET DEFINE OFF;
 --SQL Statement which produced this data:
 --
 --  SELECT * FROM FIRE_ADM.SRIDTYPE;
 --
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (1, 'Ingen beskrivelse', 'DK:DVR90');
+   (1, 'DK:DVR90', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (2, 'Ingen beskrivelse', 'EPSG:4937');
+   (2, 'EPSG:4937', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (3, 'Ingen beskrivelse', 'EPSG:4747');
+   (3, 'EPSG:4747', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (4, 'Ingen beskrivelse', 'FO:FVR09');
+   (4, 'FO:FVR09', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (5, 'Ingen beskrivelse', 'EPSG:4230');
+   (5, 'EPSG:4230', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (6, 'Ingen beskrivelse', 'EPSG:4231');
+   (6, 'EPSG:4231', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (7, 'Ingen beskrivelse', 'EPSG:4258');
+   (7, 'EPSG:4258', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (8, 'Ingen beskrivelse', 'EPSG:4747');
+   (8, 'EPSG:4747', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (9, 'Ingen beskrivelse', 'GL:4747');
+   (9, 'GL:4747', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (10, 'Ingen beskrivelse', 'LOC:GI44');
+   (10, 'LOC:GI44', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (11, 'Ingen beskrivelse', 'LOC:GM91');
+   (11, 'LOC:GM91', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (12, 'Ingen beskrivelse', 'DK:GS');
+   (12, 'DK:GS', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (13, 'Ingen beskrivelse', 'DK:GSB');
+   (13, 'DK:GSB', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (14, 'Ingen beskrivelse', 'LOC:HPOT_DRV90');
+   (14, 'LOC:HPOT_DRV90', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (15, 'Ingen beskrivelse', 'DK:KK');
+   (15, 'DK:KK', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (16, 'Ingen beskrivelse', 'LOC:KN44');
+   (16, 'LOC:KN44', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (17, 'Ingen beskrivelse', 'EPSG:4326');
+   (17, 'EPSG:4326', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (18, 'Ingen beskrivelse', 'LOC:MSL');
+   (18, 'LOC:MSL', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (19, 'Ingen beskrivelse', 'DK:OS');
+   (19, 'DK:OS', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (20, 'Ingen beskrivelse', 'DK:S34J');
+   (20, 'DK:S34J', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (21, 'Ingen beskrivelse', 'DK:S34S');
+   (21, 'DK:S34S', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (22, 'Ingen beskrivelse', 'DK:S45B');
+   (22, 'DK:S45B', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (23, 'Ingen beskrivelse', 'DK:SB');
+   (23, 'DK:SB', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (24, 'Ingen beskrivelse', 'EPSG:4936');
+   (24, 'EPSG:4936', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (25, 'Ingen beskrivelse', 'TS:LRL');
+   (25, 'TS:LRL', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (26, 'Ingen beskrivelse', 'EPSG:25832');
+   (26, 'EPSG:25832', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (27, 'Ingen beskrivelse', 'EPSG:23032');
+   (27, 'EPSG:23032', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (28, 'Ingen beskrivelse', 'EPSG:23033');
+   (28, 'EPSG:23033', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (29, 'Ingen beskrivelse', 'TS:81154');
+   (29, 'TS:81154', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (30, 'Ingen beskrivelse', 'TS:81141');
+   (30, 'TS:81141', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (31, 'Ingen beskrivelse', 'TS:81063');
+   (31, 'TS:81063', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (32, 'Ingen beskrivelse', 'TS:81094');
+   (32, 'TS:81094', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (33, 'Ingen beskrivelse', 'TS:81064');
+   (33, 'TS:81064', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (34, 'Ingen beskrivelse', 'TS:81070');
+   (34, 'TS:81070', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (35, 'Ingen beskrivelse', 'TS:81041');
+   (35, 'TS:81041', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (36, 'Ingen beskrivelse', 'TS:81069');
+   (36, 'TS:81069', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (37, 'Ingen beskrivelse', 'TS:81100');
+   (37, 'TS:81100', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (38, 'Ingen beskrivelse', 'TS:81045');
+   (38, 'TS:81045', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (39, 'Ingen beskrivelse', 'TS:81048');
+   (39, 'TS:81048', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (40, 'Ingen beskrivelse', 'TS:81119');
+   (40, 'TS:81119', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (41, 'Ingen beskrivelse', 'TS:81049');
+   (41, 'TS:81049', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (42, 'Ingen beskrivelse', 'TS:81146');
+   (42, 'TS:81146', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (43, 'Ingen beskrivelse', 'TS:81086');
+   (43, 'TS:81086', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (44, 'Ingen beskrivelse', 'TS:81089');
+   (44, 'TS:81089', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (45, 'Ingen beskrivelse', 'TS:81011');
+   (45, 'TS:81011', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (46, 'Ingen beskrivelse', 'TS:81040');
+   (46, 'TS:81040', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (47, 'Ingen beskrivelse', 'TS:81097');
+   (47, 'TS:81097', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (48, 'Ingen beskrivelse', 'TS:81009');
+   (48, 'TS:81009', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (49, 'Ingen beskrivelse', 'TS:81072');
+   (49, 'TS:81072', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (50, 'Ingen beskrivelse', 'TS:81082');
+   (50, 'TS:81082', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (51, 'Ingen beskrivelse', 'TS:81108');
+   (51, 'TS:81108', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (52, 'Ingen beskrivelse', 'TS:81018');
+   (52, 'TS:81018', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (53, 'Ingen beskrivelse', 'TS:81035');
+   (53, 'TS:81035', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (54, 'Ingen beskrivelse', 'TS:81034');
+   (54, 'TS:81034', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (55, 'Ingen beskrivelse', 'TS:81145');
+   (55, 'TS:81145', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (56, 'Ingen beskrivelse', 'TS:81066');
+   (56, 'TS:81066', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (57, 'Ingen beskrivelse', 'TS:81022');
+   (57, 'TS:81022', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (58, 'Ingen beskrivelse', 'TS:81054');
+   (58, 'TS:81054', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (59, 'Ingen beskrivelse', 'TS:81105');
+   (59, 'TS:81105', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (60, 'Ingen beskrivelse', 'TS:81028');
+   (60, 'TS:81028', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (61, 'Ingen beskrivelse', 'TS:81123');
+   (61, 'TS:81123', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (62, 'Ingen beskrivelse', 'TS:81027');
+   (62, 'TS:81027', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (63, 'Ingen beskrivelse', 'TS:81001');
+   (63, 'TS:81001', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (64, 'Ingen beskrivelse', 'TS:81032');
+   (64, 'TS:81032', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (65, 'Ingen beskrivelse', 'TS:81115');
+   (65, 'TS:81115', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (66, 'Ingen beskrivelse', 'TS:81007');
+   (66, 'TS:81007', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (67, 'Ingen beskrivelse', 'TS:81090');
+   (67, 'TS:81090', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (68, 'Ingen beskrivelse', 'TS:81132');
+   (68, 'TS:81132', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (69, 'Ingen beskrivelse', 'TS:81059');
+   (69, 'TS:81059', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (70, 'Ingen beskrivelse', 'TS:81080');
+   (70, 'TS:81080', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (71, 'Ingen beskrivelse', 'TS:81043');
+   (71, 'TS:81043', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (72, 'Ingen beskrivelse', 'TS:81046');
+   (72, 'TS:81046', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (73, 'Ingen beskrivelse', 'TS:81060');
+   (73, 'TS:81060', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (74, 'Ingen beskrivelse', 'TS:81087');
+   (74, 'TS:81087', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (75, 'Ingen beskrivelse', 'TS:81053');
+   (75, 'TS:81053', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (76, 'Ingen beskrivelse', 'TS:81044');
+   (76, 'TS:81044', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (77, 'Ingen beskrivelse', 'TS:81093');
+   (77, 'TS:81093', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (78, 'Ingen beskrivelse', 'TS:81111');
+   (78, 'TS:81111', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (79, 'Ingen beskrivelse', 'TS:81116');
+   (79, 'TS:81116', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (80, 'Ingen beskrivelse', 'TS:81135');
+   (80, 'TS:81135', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (81, 'Ingen beskrivelse', 'TS:81084');
+   (81, 'TS:81084', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (82, 'Ingen beskrivelse', 'TS:81078');
+   (82, 'TS:81078', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (83, 'Ingen beskrivelse', 'TS:81134');
+   (83, 'TS:81134', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (84, 'Ingen beskrivelse', 'TS:81047');
+   (84, 'TS:81047', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (85, 'Ingen beskrivelse', 'TS:81101');
+   (85, 'TS:81101', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (86, 'Ingen beskrivelse', 'TS:81092');
+   (86, 'TS:81092', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (87, 'Ingen beskrivelse', 'TS:81109');
+   (87, 'TS:81109', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (88, 'Ingen beskrivelse', 'TS:81062');
+   (88, 'TS:81062', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (89, 'Ingen beskrivelse', 'TS:81149');
+   (89, 'TS:81149', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (90, 'Ingen beskrivelse', 'TS:81079');
+   (90, 'TS:81079', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (91, 'Ingen beskrivelse', 'TS:81038');
+   (91, 'TS:81038', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (92, 'Ingen beskrivelse', 'TS:81114');
+   (92, 'TS:81114', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (93, 'Ingen beskrivelse', 'TS:81037');
+   (93, 'TS:81037', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (94, 'Ingen beskrivelse', 'TS:81150');
+   (94, 'TS:81150', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (95, 'Ingen beskrivelse', 'TS:81042');
+   (95, 'TS:81042', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (96, 'Ingen beskrivelse', 'TS:81143');
+   (96, 'TS:81143', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (97, 'Ingen beskrivelse', 'TS:81131');
+   (97, 'TS:81131', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (98, 'Ingen beskrivelse', 'TS:81147');
+   (98, 'TS:81147', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (99, 'Ingen beskrivelse', 'TS:81074');
+   (99, 'TS:81074', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (100, 'Ingen beskrivelse', 'TS:81144');
+   (100, 'TS:81144', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (101, 'Ingen beskrivelse', 'TS:81067');
+   (101, 'TS:81067', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (102, 'Ingen beskrivelse', 'TS:81012');
+   (102, 'TS:81012', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (103, 'Ingen beskrivelse', 'TS:81065');
+   (103, 'TS:81065', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (104, 'Ingen beskrivelse', 'TS:81050');
+   (104, 'TS:81050', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (105, 'Ingen beskrivelse', 'TS:81068');
+   (105, 'TS:81068', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (106, 'Ingen beskrivelse', 'TS:81056');
+   (106, 'TS:81056', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (107, 'Ingen beskrivelse', 'TS:81013');
+   (107, 'TS:81013', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (108, 'Ingen beskrivelse', 'TS:81081');
+   (108, 'TS:81081', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (109, 'Ingen beskrivelse', 'TS:81055');
+   (109, 'TS:81055', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (110, 'Ingen beskrivelse', 'TS:81103');
+   (110, 'TS:81103', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (111, 'Ingen beskrivelse', 'TS:81057');
+   (111, 'TS:81057', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (112, 'Ingen beskrivelse', 'TS:81003');
+   (112, 'TS:81003', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (113, 'Ingen beskrivelse', 'TS:81016');
+   (113, 'TS:81016', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (114, 'Ingen beskrivelse', 'TS:81014');
+   (114, 'TS:81014', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (115, 'Ingen beskrivelse', 'TS:81052');
+   (115, 'TS:81052', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (116, 'Ingen beskrivelse', 'TS:81077');
+   (116, 'TS:81077', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (117, 'Ingen beskrivelse', 'TS:81071');
+   (117, 'TS:81071', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (118, 'Ingen beskrivelse', 'TS:81127');
+   (118, 'TS:81127', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (119, 'Ingen beskrivelse', 'TS:81088');
+   (119, 'TS:81088', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (120, 'Ingen beskrivelse', 'TS:81020');
+   (120, 'TS:81020', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (121, 'Ingen beskrivelse', 'TS:81096');
+   (121, 'TS:81096', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (122, 'Ingen beskrivelse', 'TS:81138');
+   (122, 'TS:81138', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (123, 'Ingen beskrivelse', 'TS:81008');
+   (123, 'TS:81008', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (124, 'Ingen beskrivelse', 'TS:81021');
+   (124, 'TS:81021', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (125, 'Ingen beskrivelse', 'TS:81023');
+   (125, 'TS:81023', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (126, 'Ingen beskrivelse', 'TS:81137');
+   (126, 'TS:81137', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (127, 'Ingen beskrivelse', 'TS:81019');
+   (127, 'TS:81019', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (128, 'Ingen beskrivelse', 'TS:81017');
+   (128, 'TS:81017', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (129, 'Ingen beskrivelse', 'TS:81104');
+   (129, 'TS:81104', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (130, 'Ingen beskrivelse', 'TS:81073');
+   (130, 'TS:81073', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (131, 'Ingen beskrivelse', 'TS:81061');
+   (131, 'TS:81061', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (132, 'Ingen beskrivelse', 'TS:81106');
+   (132, 'TS:81106', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (133, 'Ingen beskrivelse', 'TS:81098');
+   (133, 'TS:81098', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (134, 'Ingen beskrivelse', 'TS:81010');
+   (134, 'TS:81010', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (135, 'Ingen beskrivelse', 'TS:81107');
+   (135, 'TS:81107', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (136, 'Ingen beskrivelse', 'TS:81025');
+   (136, 'TS:81025', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (137, 'Ingen beskrivelse', 'TS:81006');
+   (137, 'TS:81006', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (138, 'Ingen beskrivelse', 'TS:81026');
+   (138, 'TS:81026', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (139, 'Ingen beskrivelse', 'TS:81121');
+   (139, 'TS:81121', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (140, 'Ingen beskrivelse', 'TS:81091');
+   (140, 'TS:81091', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (141, 'Ingen beskrivelse', 'TS:81024');
+   (141, 'TS:81024', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (142, 'Ingen beskrivelse', 'TS:81120');
+   (142, 'TS:81120', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (143, 'Ingen beskrivelse', 'TS:81076');
+   (143, 'TS:81076', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (144, 'Ingen beskrivelse', 'TS:81085');
+   (144, 'TS:81085', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (145, 'Ingen beskrivelse', 'TS:81036');
+   (145, 'TS:81036', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (146, 'Ingen beskrivelse', 'TS:81075');
+   (146, 'TS:81075', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (147, 'Ingen beskrivelse', 'TS:81125');
+   (147, 'TS:81125', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (148, 'Ingen beskrivelse', 'TS:81139');
+   (148, 'TS:81139', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (149, 'Ingen beskrivelse', 'TS:81051');
+   (149, 'TS:81051', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (150, 'Ingen beskrivelse', 'TS:81128');
+   (150, 'TS:81128', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (151, 'Ingen beskrivelse', 'TS:81124');
+   (151, 'TS:81124', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (152, 'Ingen beskrivelse', 'TS:81122');
+   (152, 'TS:81122', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (153, 'Ingen beskrivelse', 'TS:81153');
+   (153, 'TS:81153', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (154, 'Ingen beskrivelse', 'TS:81129');
+   (154, 'TS:81129', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (155, 'Ingen beskrivelse', 'TS:81126');
+   (155, 'TS:81126', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (156, 'Ingen beskrivelse', 'TS:81136');
+   (156, 'TS:81136', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (157, 'Ingen beskrivelse', 'TS:81033');
+   (157, 'TS:81033', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (158, 'Ingen beskrivelse', 'TS:81151');
+   (158, 'TS:81151', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (159, 'Ingen beskrivelse', 'TS:81029');
+   (159, 'TS:81029', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (160, 'Ingen beskrivelse', 'TS:81130');
+   (160, 'TS:81130', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (161, 'Ingen beskrivelse', 'TS:81102');
+   (161, 'TS:81102', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (162, 'Ingen beskrivelse', 'TS:81133');
+   (162, 'TS:81133', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (163, 'Ingen beskrivelse', 'TS:81058');
+   (163, 'TS:81058', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (164, 'Ingen beskrivelse', 'TS:81030');
+   (164, 'TS:81030', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (165, 'Ingen beskrivelse', 'TS:81095');
+   (165, 'TS:81095', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (166, 'Ingen beskrivelse', 'TS:81039');
+   (166, 'TS:81039', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (167, 'Ingen beskrivelse', 'TS:81099');
+   (167, 'TS:81099', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (168, 'Ingen beskrivelse', 'TS:81031');
+   (168, 'TS:81031', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (169, 'Ingen beskrivelse', 'TS:81152');
+   (169, 'TS:81152', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (170, 'Ingen beskrivelse', 'TS:81140');
+   (170, 'TS:81140', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (171, 'Ingen beskrivelse', 'TS:81005');
+   (171, 'TS:81005', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (172, 'Ingen beskrivelse', 'TS:81083');
+   (172, 'TS:81083', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (173, 'Ingen beskrivelse', 'TS:81002');
+   (173, 'TS:81002', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (174, 'Ingen beskrivelse', 'TS:81004');
+   (174, 'TS:81004', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (175, 'Ingen beskrivelse', 'TS:81112');
+   (175, 'TS:81112', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (176, 'Ingen beskrivelse', 'TS:81113');
+   (176, 'TS:81113', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (177, 'Ingen beskrivelse', 'TS:81142');
+   (177, 'TS:81142', 'Ingen beskrivelse');
 Insert into SRIDTYPE
-   (OBJECTID, BESKRIVELSE, SRID)
+   (OBJECTID, SRID, BESKRIVELSE)
  Values
-   (178, 'Ingen beskrivelse', 'TS:81148');
+   (178, 'TS:81148', 'Ingen beskrivelse');
 COMMIT;

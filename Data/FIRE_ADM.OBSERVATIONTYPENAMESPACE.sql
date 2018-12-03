@@ -1,4 +1,4 @@
-SET DEFINE OFF;
+﻿SET DEFINE OFF;
 --SQL Statement which produced this data:
 --
 --  SELECT * FROM FIRE_ADM.OBSERVATIONTYPENAMESPACE;
