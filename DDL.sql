@@ -649,18 +649,18 @@ end;
 
 
 CREATE OR REPLACE TRIGGER AUD#SAGSEVENT
-before update ON SAGSEVENT
+after update ON SAGSEVENT
 for each row
 begin
-IF :new.OBJECTID != :old.OBJECTID THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column '); END IF;
+IF :new.OBJECTID != :old.OBJECTID THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column(a) '); END IF;
 
-IF :new.ID != :old.ID THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column '); END IF;
+IF :new.ID != :old.ID THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column(b) '); END IF;
 
-IF :new.REGISTRERINGFRA != :old.REGISTRERINGFRA THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column '); END IF;
+IF :new.REGISTRERINGFRA != :old.REGISTRERINGFRA THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column(c) '); END IF;
 
 --IF :new.REGISTRERINGTIL != :old.REGISTRERINGTIL THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column '); END IF;
 
-IF :new.SAGID != :old.SAGID THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column '); END IF;
+IF :new.SAGID != :old.SAGID THEN RAISE_APPLICATION_ERROR(20000,'You cannot update this column(d) '); END IF;
 
 end;
 /
@@ -707,6 +707,32 @@ IF :new.BESKRIVELSE != :old.BESKRIVELSE THEN RAISE_APPLICATION_ERROR(20000,'You 
 end;
 /
 
+
+-- Trigger der sikre at sageevents kun knyttes til en aktiv sag
+CREATE OR REPLACE TRIGGER AID#SAGSEVENT
+after insert ON SAGSEVENT
+for each row
+declare
+cnt number := 0;
+begin
+
+  begin
+    select 1 into cnt
+    from sagsinfo
+    where aktiv = 'true'
+    and registreringtil is null
+    and sagid = :new.sagid;
+  exception when no_data_found then cnt:=0;
+  end;
+  
+  if cnt = 0 then
+    RAISE_APPLICATION_ERROR(20000,'Ingen aktiv sag fundet paa sagid'||:new.sagid); 
+  END IF;
+
+end;
+/
+
+
 -- Index der skal sikre at der til samme punkt ikke tilføjes en koordinat med samme SRID, hvis denne ikke er afregistreret
 CREATE UNIQUE INDEX KOOR_UNIQ_001 ON KOORDINAT
 (SRID, PUNKTID, REGISTRERINGTIL);
@@ -714,7 +740,7 @@ CREATE UNIQUE INDEX KOOR_UNIQ_001 ON KOORDINAT
 
 -- Trigger der skal sikre at inholdet i Observation-tabellen matcher hvad der er defineret observationtype-tabellen
 CREATE OR REPLACE TRIGGER AID#OBSERVATION
-after insert or UPDATE ON OBSERVATION
+after insert Or UPDATE ON OBSERVATION
 for each row
 declare
    val1 varchar2(4000):= '';
@@ -933,20 +959,20 @@ VALUES ('observation nummer nul, indlagt fra start i observationstabellen, så d
 commit;
 -- Oprettelse af første sag samt tilhørende sagsrelaterede informationer
 INSERT INTO SAG (ID, REGISTRERINGFRA)
-VALUES ('4f8f29c8-c38f-4c69-ae28-c7737178de1f', SYSDATE);
+VALUES ('4f8f29c8-c38f-4c69-ae28-c7737178de1f', to_date('2018-10-01','YYYY-MM-DD'));
 
 INSERT INTO SAGSINFO (AKTIV, SAGID, REGISTRERINGFRA, REGISTRERINGTIL, JOURNALNUMMER, BEHANDLER, BESKRIVELSE)
-VALUES ('true','4f8f29c8-c38f-4c69-ae28-c7737178de1f', SYSDATE, NULL,  NULL, 'Thomas Knudsen', 'Sagen er oprette i forbindelse med migrering af data fra REFGEO til FIRE');
+VALUES ('true','4f8f29c8-c38f-4c69-ae28-c7737178de1f', to_date('2018-10-01','YYYY-MM-DD'), NULL,  NULL, 'Thomas Knudsen', 'Sagen er oprette i forbindelse med migrering af data fra REFGEO til FIRE');
 
 commit;
 -- Nulobservationspunkt:
 -- Første punkt i Punkt-tabellen. Udelukkende til brug for at at nulobservatioen kan henvise til det.
 
 INSERT INTO SAGSEVENT (ID, REGISTRERINGFRA, EVENT, SAGID)
-VALUES ('ce5d92cb-e890-411b-a836-0b3f19564500', SYSDATE, 'punkt_oprettet', '4f8f29c8-c38f-4c69-ae28-c7737178de1f');
+VALUES ('ce5d92cb-e890-411b-a836-0b3f19564500', to_date('2018-10-02','YYYY-MM-DD'), 'punkt_oprettet', '4f8f29c8-c38f-4c69-ae28-c7737178de1f');
 
 INSERT INTO PUNKT (ID, REGISTRERINGFRA, REGISTRERINGTIL, SAGSEVENTID)
-VALUES ('cb29ee7b-d5ab-4903-aecd-3860a80caf0b', SYSDATE, NULL, 'ce5d92cb-e890-411b-a836-0b3f19564500');
+VALUES ('cb29ee7b-d5ab-4903-aecd-3860a80caf0b', to_date('2018-10-02','YYYY-MM-DD'), NULL, 'ce5d92cb-e890-411b-a836-0b3f19564500');
 
 commit;
 -- Første række i observationstabellen. 
@@ -1004,4 +1030,4 @@ VALUES ('15101d43-ac91-4c7c-9e58-c7a0b5367910', SYSDATE, 'punktinfo_tilføjet', 
 INSERT INTO SAGSEVENT (ID, REGISTRERINGFRA, EVENT, SAGID)
 VALUES ('e964cca6-7b16-414a-9538-8639eacaac3d', SYSDATE, 'punkt_oprettet', '4f8f29c8-c38f-4c69-ae28-c7737178de1f');
 
--- End
+-- End
