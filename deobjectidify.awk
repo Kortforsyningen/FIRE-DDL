@@ -11,16 +11,12 @@ $1=="Insert" && $2=="into" {
     print
     getline
     sub(/\(OBJECTID, /, "(")
-    print
-    next
 }
 
 $1=="Values" {
     print
     getline
     sub(/\([[:space:]]*[+-]?[0-9]+, /, "(")
-    print
-    next
 }
 
 {print}
