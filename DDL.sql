@@ -177,16 +177,18 @@ CREATE TABLE SAGSEVENTINFO (
 
 CREATE TABLE SAGSEVENTINFO_MATERIALE (
 
-   SAGSEVENTINFOOBJECTID INTEGER NOT NULL,
-   MATERIALE VARCHAR2(4000) NOT NULL,
-   PRIMARY KEY (SAGSEVENTINFOOBJECTID, MATERIALE)
+   OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
+   MD5SUM VARCHAR2(32) NOT NULL,
+   TEKST CLOB NOT NULL,
+   SAGSEVENTINFOOBJECTID INTEGER NOT NULL
 );
 
 CREATE TABLE SAGSEVENTINFO_RAPPORTHTML (
 
-   SAGSEVENTINFOOBJECTID INTEGER NOT NULL,
-   RAPPORTHTML VARCHAR2(4000) NOT NULL,
-   PRIMARY KEY (SAGSEVENTINFOOBJECTID, RAPPORTHTML)
+   OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
+   MD5SUM VARCHAR2(32) NOT NULL,
+   TEKST CLOB NOT NULL,
+   SAGSEVENTINFOOBJECTID INTEGER NOT NULL
 );
 
 CREATE TABLE SAGSINFO (
@@ -334,8 +336,12 @@ COMMENT ON COLUMN SAGSEVENTINFO.BESKRIVELSE IS 'Specifik beskrivelse af den aktu
 COMMENT ON COLUMN SAGSEVENTINFO.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
 COMMENT ON COLUMN SAGSEVENTINFO.REGISTRERINGTIL IS 'Tidspunktet hvor en ny registrering er foretaget på objektet, og hvor denne version således ikke længere er den seneste.';
 COMMENT ON COLUMN SAGSEVENTINFO.SAGSEVENTID IS 'Den sagsevent som sagseventinfo har information om.';
-COMMENT ON COLUMN SAGSEVENTINFO_MATERIALE.MATERIALE IS 'Generisk materiale tilknyttet sagsevent - typisk en filmappe URI.';
-COMMENT ON COLUMN SAGSEVENTINFO_RAPPORTHTML.RAPPORTHTML IS 'Generisk operatørlæsbart orienterende rapportmateriale.';
+COMMENT ON TABLE SAGSEVENTINFO_MATERIALE IS 'materiale knyttet til en event';
+COMMENT ON COLUMN SAGSEVENTINFO_MATERIALE.MD5SUM IS 'Sum brugt til at kontrollere materialets integritet.';
+COMMENT ON COLUMN SAGSEVENTINFO_MATERIALE.TEKST IS 'Materialets indehold.';
+COMMENT ON TABLE SAGSEVENTINFO_RAPPORTHTML IS 'materiale knyttet til en event';
+COMMENT ON COLUMN SAGSEVENTINFO_RAPPORTHTML.MD5SUM IS 'Sum brugt til at kontrollere materialets integritet.';
+COMMENT ON COLUMN SAGSEVENTINFO_RAPPORTHTML.TEKST IS 'Materialets indehold.';
 COMMENT ON TABLE SAGSINFO IS 'Samling af administrativt relaterede sagshændelser.';
 COMMENT ON COLUMN SAGSINFO.AKTIV IS 'Markerer om sagen er åben eller lukket.';
 COMMENT ON COLUMN SAGSINFO.BEHANDLER IS 'Angivelse af en sagsbehandler.';
@@ -993,4 +999,4 @@ VALUES ('bruges når nye koordinater skabes. Knytter observationer til koordinat
 INSERT INTO EVENTTYPE (BESKRIVELSE, EVENT)
 VALUES ('bruges til at tilføje fritekst kommentarer til sagen i tilfælde af at der er behov for at påhæfte sagen yderligere information som ikke passer i andre hændelser. Bruges fx også til påhæftning af materiale på sagen.', 'kommentar');
 
--- End
+-- End
