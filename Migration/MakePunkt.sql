@@ -68,9 +68,6 @@ FROM (
 INNER JOIN HVD_REF@refgeo href ON distrefnr.REFNR = href.REFNR AND href.OPRDATO < TO_DATE('2016-01-01','YYYY-MM-DD')
 ;
 
-
--- DELETE FROM PUNKT;
-
 -- Create PUNKT table based on authoritative punkter
 INSERT INTO PUNKT (
     ID, 
@@ -87,22 +84,7 @@ FROM HVD_REF@refgeo href
 INNER JOIN AUTHREFNR auth ON href.REFNR = auth.REFNR
 INNER JOIN CONV_PUNKT conv ON href.REFNR = conv.REFNR
 ORDER BY href.OPRDATO DESC
-FETCH FIRST 1000 ROWS ONLY -- only for datadump
+-- FETCH FIRST 1000 ROWS ONLY -- only for datadump
 ;
-
-
-SELECT 
-    conv.ID,
-    href.OPRDATO,
-    NULL,
-    'e964cca6-7b16-414a-9538-8639eacaac3d' -- SELECT ID FROM SAGSEVENT WHERE EVENT = 'punkt_oprettet'; brug den yngste
-FROM HVD_REF@refgeo href
-INNER JOIN AUTHREFNR auth ON href.REFNR = auth.REFNR
-INNER JOIN CONV_PUNKT conv ON href.REFNR = conv.REFNR
-ORDER BY href.OPRDATO DESC
-FETCH FIRST 1000 ROWS ONLY
-;
-
-
 
 COMMIT;
