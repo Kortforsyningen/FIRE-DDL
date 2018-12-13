@@ -1,11 +1,11 @@
-/* -------------------------------------------------------------------------- */
+ï»¿/* -------------------------------------------------------------------------- */
 /* Make PUNKTINFO data (with namespace SKITSE).
 /* Data is found in REFGEO tables SKITSE and FIRE_SKITSER that was created by  
 /* Kristian Evers specifically for migration purposes. 
 /* File: MakePunktInfoSKITSE.sql   
 /* -------------------------------------------------------------------------- */
 /*
-SPØRGSMÅL
+SPÃ˜RGSMÃ…L
 */
 
 DELETE FROM PUNKTINFO WHERE INFOTYPE LIKE 'SKITSE:%';

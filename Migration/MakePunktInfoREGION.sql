@@ -1,10 +1,10 @@
-/* -------------------------------------------------------------------------- */
+ï»¿/* -------------------------------------------------------------------------- */
 /* Make PUNKTINFO data (with namespace REGION).
 /* Data is found in REFGEO tables HVD_REF and RGN_TABLE 
 /* File: MakePunktInfoREGION.sql   
 /* -------------------------------------------------------------------------- */
 /*
-SPØRGSMÅL
+SPÃ˜RGSMÃ…L
 */
 
 DELETE FROM PUNKTINFO WHERE INFOTYPE LIKE 'REGION:%';

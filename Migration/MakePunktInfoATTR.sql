@@ -1,10 +1,10 @@
-/* -------------------------------------------------------------------------- */
+ï»¿/* -------------------------------------------------------------------------- */
 /* Make PUNKTINFO data (with namespace ATTR).
 /* Data is found in REFGEO tables ADGANG, QUICKSTNINFORM and HVD_REF 
 /* File: MakePunktInfoATTR.sql   
 /* -------------------------------------------------------------------------- */
 /*
-SPØRGSMÅL
+SPÃ˜RGSMÃ…L
 */
 
 DELETE FROM PUNKTINFO WHERE INFOTYPE LIKE 'ATTR:%';
@@ -23,12 +23,12 @@ INNER JOIN ADGANG@refgeo adgf ON adgf.REFNR = conv.REFNR AND adgf.TILGANG = 1
 LEFT JOIN ADGANG@refgeo adgt ON adgf.REFNR = adgt.REFNR AND (adgf.VERSNR+1) = adgt.VERSNR AND adgt.TILGANG = 1
 ;
 
--- ATTR:tabtgået
+-- ATTR:tabtgÃ¥et
 INSERT INTO PUNKTINFO (REGISTRERINGFRA, REGISTRERINGTIL, INFOTYPE, SAGSEVENTID, PUNKTID)
 SELECT 
     p.REGISTRERINGFRA AS REGISTRERINGFRA,
     NULL AS REGISTRERINGTIL,
-    'ATTR:tabtgået' AS INFOTYPE,
+    'ATTR:tabtgÃ¥et' AS INFOTYPE,
     '15101d43-ac91-4c7c-9e58-c7a0b5367910' AS SAGSEVENTID,
     conv.ID AS PUNKTID
 FROM PUNKT p
@@ -49,12 +49,12 @@ INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
 INNER JOIN QUICKSTNINFORM@refgeo q ON q.REFNR = conv.REFNR AND q.E_MARK = 1
 ;
 
--- ATTR:vandstandsmåler
+-- ATTR:vandstandsmÃ¥ler
 INSERT INTO PUNKTINFO (REGISTRERINGFRA, REGISTRERINGTIL, INFOTYPE, SAGSEVENTID, PUNKTID)
 SELECT 
     p.REGISTRERINGFRA AS REGISTRERINGFRA,
     NULL AS REGISTRERINGTIL,
-    'ATTR:vandstandsmåler' AS INFOTYPE,
+    'ATTR:vandstandsmÃ¥ler' AS INFOTYPE,
     '15101d43-ac91-4c7c-9e58-c7a0b5367910' AS SAGSEVENTID,
     conv.ID AS PUNKTID
 FROM PUNKT p
@@ -91,12 +91,12 @@ LEFT JOIN BSK@refgeo bt ON bf.REFNR = bt.REFNR AND (bf.VERSNR+1) = bt.VERSNR
 WHERE bf.IN_DATE < bt.IN_DATE OR bt.IN_DATE IS NULL
 ;
 
--- ATTR:højdefikspunkt
+-- ATTR:hÃ¸jdefikspunkt
 INSERT INTO PUNKTINFO (REGISTRERINGFRA, REGISTRERINGTIL, INFOTYPE, SAGSEVENTID, PUNKTID)
 SELECT 
     p.REGISTRERINGFRA AS REGISTRERINGFRA,
     NULL AS REGISTRERINGTIL,
-    'ATTR:højdefikspunkt' AS INFOTYPE,
+    'ATTR:hÃ¸jdefikspunkt' AS INFOTYPE,
     '15101d43-ac91-4c7c-9e58-c7a0b5367910' AS SAGSEVENTID,
     conv.ID AS PUNKTID
 FROM PUNKT p
@@ -130,12 +130,12 @@ INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
 INNER JOIN HVD_REF@refgeo href ON href.REFNR = conv.REFNR AND href.MV_STATUS = 2
 ;
 
--- ATTR:hjælpepunkt
+-- ATTR:hjÃ¦lpepunkt
 INSERT INTO PUNKTINFO (REGISTRERINGFRA, REGISTRERINGTIL, INFOTYPE, SAGSEVENTID, PUNKTID)
 SELECT 
     p.REGISTRERINGFRA AS REGISTRERINGFRA,
     NULL AS REGISTRERINGTIL,
-    'ATTR:hjælpepunkt' AS INFOTYPE,
+    'ATTR:hjÃ¦lpepunkt' AS INFOTYPE,
     '15101d43-ac91-4c7c-9e58-c7a0b5367910' AS SAGSEVENTID,
     conv.ID AS PUNKTID
 FROM PUNKT p
@@ -149,7 +149,7 @@ SELECT
     dekf.IN_DATE AS REGISTRERINGFRA,
     dekt.IN_DATE AS REGISTRERINGTIL,
     'ATTR:tinglysningsnr' AS INFOTYPE,
-    'Sagsnummer fra Tingbogen ikke tilgængeligt. Opdatering udestår.' AS TEKST,
+    'Sagsnummer fra Tingbogen ikke tilgÃ¦ngeligt. Opdatering udestÃ¥r.' AS TEKST,
     '15101d43-ac91-4c7c-9e58-c7a0b5367910' AS SAGSEVENTID,
     conv.ID AS PUNKTID
 FROM PUNKT p
@@ -159,12 +159,12 @@ LEFT JOIN deklar@refgeo dekt ON dekf.REFNR = dekt.REFNR AND (dekf.VERSNR+1) = de
 WHERE dekf.IN_DATE IS NOT NULL
 ;
 
--- ATTR:bemærkning
+-- ATTR:bemÃ¦rkning
 INSERT INTO PUNKTINFO (REGISTRERINGFRA, REGISTRERINGTIL, INFOTYPE, TEKST, SAGSEVENTID, PUNKTID)
 SELECT 
     bf.IN_DATE AS REGISTRERINGFRA,
     bt.IN_DATE AS REGISTRERINGTIL,
-    'ATTR:bemærkning' AS INFOTYPE,
+    'ATTR:bemÃ¦rkning' AS INFOTYPE,
      '[' || TO_CHAR(bf.IN_DATE, 'YYYY-MM-DD HH24:MI') || '] ' || bf.BEM AS TEKST,
     '15101d43-ac91-4c7c-9e58-c7a0b5367910' AS SAGSEVENTID,
     conv.ID AS PUNKTID
