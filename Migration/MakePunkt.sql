@@ -1,4 +1,4 @@
-/* -------------------------------------------------------------------------- */
+﻿/* -------------------------------------------------------------------------- */
 /* Make PUNKT data. We will only transfer white listed punkter according to
 /* the following rules: All punkter established in 2016 and beyond plus
 /* punkter established before 2016 having a location, observation or position.   
@@ -83,7 +83,7 @@ SELECT
 FROM HVD_REF@refgeo href
 INNER JOIN AUTHREFNR auth ON href.REFNR = auth.REFNR
 INNER JOIN CONV_PUNKT conv ON href.REFNR = conv.REFNR
-ORDER BY href.OPRDATO DESC
+-- ORDER BY href.OPRDATO DESC
 -- FETCH FIRST 1000 ROWS ONLY -- only for datadump
 ;
 

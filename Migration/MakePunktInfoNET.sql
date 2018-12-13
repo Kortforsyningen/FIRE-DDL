@@ -1,8 +1,8 @@
-/* -------------------------------------------------------------------------- */
+﻿/* -------------------------------------------------------------------------- */
 /* Make PUNKTINFO data (with namespace NET). 
 /* File: MakePunktInfoNET.sql   
 /* All but NET:jessen is found using the REFGEO.NET table. Jessen punkter is
-/* found using table sub_ref and l�benummer (LBN) - see sql below
+/* found using table sub_ref and løbenummer (LBN) - see sql below
 /* -------------------------------------------------------------------------- */
 
 DELETE FROM PUNKTINFO WHERE INFOTYPE LIKE 'NET:%';

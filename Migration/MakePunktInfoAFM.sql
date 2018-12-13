@@ -1,9 +1,9 @@
-/* -------------------------------------------------------------------------- */
+ï»¿/* -------------------------------------------------------------------------- */
 /* Make PUNKTINFO data (with namespace AFM). 
 /* File: MakePunktInfoAFM.sql   
 /* -------------------------------------------------------------------------- */
 /*
-SPØRGSMÅL
+SPÃ˜RGSMÃ…L
 */
 
 
@@ -12,14 +12,14 @@ DELETE FROM PUNKTINFO WHERE INFOTYPE LIKE 'AFM:%';
 -- SELECT COUNT(*) FROM PUNKTINFO WHERE INFOTYPE LIKE 'AFM:%';
 -- SELECT INFOTYPE, COUNT(*) FROM PUNKTINFO WHERE INFOTYPE LIKE 'AFM:%' GROUP BY INFOTYPE;
 
--- Afmærkninger skal stykkes sammen fra to forskellige tabeller: AFMTXT og AFMTYP_TXT. 
--- Førstnævnte er en samlekasse til alle de afmærkningsbeskrivelse der ikke er er standardisere. Dem gemmer vi under en kategori med URN'en AFM:diverse. 
--- De resterende afmærkningsbeskrivelser er de standardiserede der findes i AFMTYP_TXT. De får URN'er bestemt ud fra kolonnen AFMTYP, sådan at de bliver AFM:xxxx.
--- Koblingen mellem punkterne og afmærkningstyperne findes i FYSIK tabellen, hvor refnr kan knyttes til rækker i AFMTYP_TXT. 
--- For de afmærkningern hvor der ikke findes en standardiseret type vil AFMTYP_TXT.TEKST være "p_afmtxt". Dette betyder at refnr'eret i stedet skal slås op i AFMTXT. 
--- Disse skal gemmes som tekstværdi under URN'en AFM:diverse.
+-- AfmÃ¦rkninger skal stykkes sammen fra to forskellige tabeller: AFMTXT og AFMTYP_TXT. 
+-- FÃ¸rstnÃ¦vnte er en samlekasse til alle de afmÃ¦rkningsbeskrivelse der ikke er er standardisere. Dem gemmer vi under en kategori med URN'en AFM:diverse. 
+-- De resterende afmÃ¦rkningsbeskrivelser er de standardiserede der findes i AFMTYP_TXT. De fÃ¥r URN'er bestemt ud fra kolonnen AFMTYP, sÃ¥dan at de bliver AFM:xxxx.
+-- Koblingen mellem punkterne og afmÃ¦rkningstyperne findes i FYSIK tabellen, hvor refnr kan knyttes til rÃ¦kker i AFMTYP_TXT. 
+-- For de afmÃ¦rkningern hvor der ikke findes en standardiseret type vil AFMTYP_TXT.TEKST vÃ¦re "p_afmtxt". Dette betyder at refnr'eret i stedet skal slÃ¥s op i AFMTXT. 
+-- Disse skal gemmes som tekstvÃ¦rdi under URN'en AFM:diverse.
 
--- Lav temporær tabel med afmærkninger og hvor højde_over_ er sorteret fra. Årsagen er at historik ellers bliver fejlagtig
+-- Lav temporÃ¦r tabel med afmÃ¦rkninger og hvor hÃ¸jde_over_ er sorteret fra. Ã…rsagen er at historik ellers bliver fejlagtig
 CREATE TABLE FYSIK_AFM AS
 SELECT ss.REFNR, ss.AFMTYP, ss.IN_DATE, ss.my_versnr AS VERSNR FROM 
 (
@@ -82,7 +82,7 @@ LEFT JOIN FYSIK_AFM afmto ON afmfrom.REFNR = afmto.REFNR AND (afmfrom.VERSNR+1) 
 WHERE afmfrom.AFMTYP >=1000 AND afmfrom.AFMTYP < 4000
 ;  
 
--- AFM:naturlig, bemærk ingen historik pga. QUICKSTNINFORM (indeholder kun gældende værdier) 
+-- AFM:naturlig, bemÃ¦rk ingen historik pga. QUICKSTNINFORM (indeholder kun gÃ¦ldende vÃ¦rdier) 
 INSERT INTO PUNKTINFO (REGISTRERINGFRA, REGISTRERINGTIL, INFOTYPE, TEKST, SAGSEVENTID, PUNKTID)
 SELECT 
     href.OPRDATO AS REGISTRERINGFRA,
@@ -97,7 +97,7 @@ INNER JOIN HVD_REF@refgeo href ON href.REFNR = conv.REFNR
 INNER JOIN QUICKSTNINFORM@refgeo n ON n.REFNR = conv.REFNR AND n.n_mark=1
 ;
 
--- Lav temporær tabel med hvor højde_over_ og hvor afmtyp er sorteret fra. Årsagen er at historik ellers bliver fejlagtig
+-- Lav temporÃ¦r tabel med hvor hÃ¸jde_over_ og hvor afmtyp er sorteret fra. Ã…rsagen er at historik ellers bliver fejlagtig
 CREATE TABLE FYSIK_HOEJDE AS
 SELECT ss.REFNR, ss.HEIGHT_TYP, ss.HEIGHT, ss.IN_DATE, ss.my_versnr AS VERSNR FROM 
 (
@@ -107,12 +107,12 @@ SELECT ss.REFNR, ss.HEIGHT_TYP, ss.HEIGHT, ss.IN_DATE, ss.my_versnr AS VERSNR FR
     ) s
 ) ss;
 
--- AFM:højde_over_xxx (ca. 12 stk)
+-- AFM:hÃ¸jde_over_xxx (ca. 12 stk)
 INSERT INTO PUNKTINFO (REGISTRERINGFRA, REGISTRERINGTIL, INFOTYPE, TAL, SAGSEVENTID, PUNKTID)
 SELECT 
     hfrom.IN_DATE AS REGISTRERINGFRA,
     hto.IN_DATE AS REGISTRERINGTIL,
-    'AFM:højde_over_' || trim('.' FROM height.TEKST) AS INFOTYPE,
+    'AFM:hÃ¸jde_over_' || trim('.' FROM height.TEKST) AS INFOTYPE,
     hfrom.HEIGHT AS TAL,
     '15101d43-ac91-4c7c-9e58-c7a0b5367910' AS SAGSEVENTID,
     conv.ID AS PUNKTID

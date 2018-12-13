@@ -1,4 +1,4 @@
-/* -------------------------------------------------------------------------- */
+﻿/* -------------------------------------------------------------------------- */
 /* Sample SQL to get information about a punkt, observation and beregning. 
 /* SQL assumes that you are using the REFNR as identifier when obtaining info
 /* about punkt (including geometri, punktinfo and koordinat)
