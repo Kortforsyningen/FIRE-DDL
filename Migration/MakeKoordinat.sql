@@ -1,4 +1,4 @@
-﻿/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 /* Make KOORDINAT data. Data is stored in many tables in REFGEO (one table
 /* per SRID. Tables containing 1D coordinates have the same structure, so do
 /* the 2D and time series (TS), more or less.  
@@ -79,7 +79,6 @@ CREATE INDEX koortable ON TMP_KOORDINAT(KOORTABLE);
 -- calculation timestamp for all coordinates and a new unique ID.
 -- Will be used to create sagsevents and to populate column KOORDINAT.SAGSEVENTID 
 -- and BEREGNING.SAGSEVENTID for all coordinates and calculations respectively   
--- DROP TABLE KOOR_BERE_SAGSEVENTID PURGE;
 CREATE TABLE KOOR_BERE_SAGSEVENTID (
     BERDATO TIMESTAMP(6) WITH TIME ZONE NOT NULL,
     SAID VARCHAR2(36) NOT NULL
@@ -99,26 +98,18 @@ FROM KOOR_BERE_SAGSEVENTID
 ;  
 
 -- Create sagseventinfo based on REFGEO table JSNR_BER
--- TODO
-/*
-INSERT INTO SAGSEVENTINFO (REGISTRERINGFRA, BESKRIVELSE, SAGSEVENTID);
-SELECT se.REGISTRERINGFRA AS REGISTRERINGFRA, 'sted: ' || jinfo.STED || ', ' || jinfo.TEKST AS BESKRIVELSE, se.ID AS SAGSEVENTID 
-FROM (
-    SELECT 'DK_hts_dvr90' AS BER_LABEL, HBERDATO AS BERDATO, JNR_BSIDE FROM TS_DVR90@refgeo WHERE JNR_BSIDE > 0) koor
-INNER JOIN JSNR_BER@refgeo jinfo ON koor.HBERDATO = jinfo.BERDATO AND koor.BER_LABEL = jinfo.BER_LABEL AND INSTR(jinfo.TEKST, koor.JNR_BSIDE) > 0 
+INSERT INTO SAGSEVENTINFO (REGISTRERINGFRA, BESKRIVELSE, SAGSEVENTID)
+SELECT 
+    se.REGISTRERINGFRA AS REGISTRERINGFRA, 
+    'Beregningsdato: [' || TO_CHAR(jinfo.BERDATO, 'YYYY-MM-DD HH24:MI') || '], initialer: ' || jinfo.INITIALER || ', sted: ' || jinfo.STED || ', tekst: ' || jinfo.TEKST AS BESKRIVELSE, 
+    se.ID AS SAGSEVENTID 
+FROM JSNR_BER@refgeo jinfo
+INNER JOIN (
+    SELECT BERDATO FROM JSNR_BER@refgeo WHERE BERDATO IS NOT NULL GROUP BY BERDATO HAVING COUNT(*) = 1 -- exclude journal info when more than one journal exist
+) unikber ON jinfo.BERDATO = unikber.BERDATO
 INNER JOIN KOOR_BERE_SAGSEVENTID said ON jinfo.BERDATO = said.BERDATO
 INNER JOIN SAGSEVENT se ON said.SAID = se.ID
 ;
-
-SELECT se.REGISTRERINGFRA AS REGISTRERINGFRA, 'sted: ' || jinfo.STED || ', ' || jinfo.TEKST AS BESKRIVELSE, se.ID AS SAGSEVENTID 
-FROM (
-    SELECT 'DK_hts_dvr90' AS BER_LABEL, HBERDATO AS BERDATO, JNR_BSIDE FROM TS_DVR90@refgeo WHERE JNR_BSIDE > 0) koor
-INNER JOIN JSNR_BER@refgeo jinfo ON koor.HBERDATO = jinfo.BERDATO AND koor.BER_LABEL = jinfo.BER_LABEL AND INSTR(jinfo.TEKST, koor.JNR_BSIDE) > 0 
-INNER JOIN KOOR_BERE_SAGSEVENTID said ON jinfo.BERDATO = said.BERDATO
-INNER JOIN SAGSEVENT se ON said.SAID = se.ID
-;
-
-*/
 
 -- Create sagseventinfo_rapport if possible for each sag (calculation date)
 INSERT INTO SAGSEVENTINFO_RAPPORTHTML (SAGSEVENTINFOOBJECTID, RAPPORTHTML) 
@@ -252,6 +243,7 @@ INNER JOIN
 INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
 
+-- Clean up
 DROP TABLE TMP_KOORDINAT PURGE;
 
 COMMIT;
