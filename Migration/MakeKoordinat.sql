@@ -230,15 +230,34 @@ INNER JOIN
 INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
 
--- ts_dvr90 + ts_euref89
--- Time series (TS_DVR90 + TS_EUREF89) will be treated different as Jessenpunkt will be used as SRID    
+-- ts_dvr90
+-- Time series will be treated different as Jessenpunkt will be used as SRID    
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
 INNER JOIN 
 (
-    SELECT cf.REFNR, 'TS:' || cf.JNR_BSIDE AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'ts_dvr90' UNION ALL
-    SELECT cf.REFNR, 'TS:' || cf.JNR_BSIDE AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'ts_euref89'
+    SELECT cf.REFNR, 'TS:' || cf.JNR_BSIDE AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE 
+    FROM TMP_KOORDINAT cf 
+    LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE 
+    WHERE cf.KOORTABLE = 'ts_dvr90'
+) coor ON conv.REFNR = coor.REFNR
+INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
+;
+
+-- ts_euref89
+-- Time series (TS_EUREF89) will be treated different as GNSS/landsnr will be used as SRID    
+INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
+SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
+FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
+INNER JOIN 
+(
+    SELECT cf.REFNR, 'TS:' || NVL(gnss.IDENT, landsnr.IDENT) AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE 
+    FROM TMP_KOORDINAT cf
+    LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE
+    LEFT JOIN refadm.REFNR_IDENT@refgeo gnss ON cf.REFNR = gnss.REFNR AND gnss.IDENT_TYPE = 'GNSS' 
+    LEFT JOIN refadm.REFNR_IDENT@refgeo landsnr ON cf.REFNR = landsnr.REFNR AND landsnr.IDENT_TYPE = 'landsnr' 
+    WHERE cf.KOORTABLE = 'ts_euref89'
 ) coor ON conv.REFNR = coor.REFNR
 INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
