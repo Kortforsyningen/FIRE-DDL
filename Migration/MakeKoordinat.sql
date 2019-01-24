@@ -1,8 +1,8 @@
 /* -------------------------------------------------------------------------- */
 /* Make KOORDINAT data. Data is stored in many tables in REFGEO (one table
 /* per SRID. Tables containing 1D coordinates have the same structure, so do
-/* the 2D and time series (TS), more or less.  
-/* File: MakeKoordinat.sql   
+/* the 2D and time series (TS), more or less.
+/* File: MakeKoordinat.sql
 /* -------------------------------------------------------------------------- */
 
 /*
@@ -10,35 +10,35 @@ TO DO:
 TID_5D er ikke medtaget. Afventer SDFE
 */
 
-/* 
+/*
 Due to identical IN_DATE values for a REFNR and due to missing VERSNR entries
 we will correct data in order to migrate as many coordinates as possble.
-Without a correction a large amount (200.000+) of coordinate instances would not 
+Without a correction a large amount (200.000+) of coordinate instances would not
 be migrated due to unique constraint violations in KOORDINAT.
 The correction is a two step process. First we will make sure that no REFNR
-has identical IN_DATE values - this is done by adding the VERSNR in seconds 
-to the IN_DATE. Second, we will establish a new VERSNR chronology to eliminate 
+has identical IN_DATE values - this is done by adding the VERSNR in seconds
+to the IN_DATE. Second, we will establish a new VERSNR chronology to eliminate
 the missing VERSNR entries.
 */
 
--- Create a working table to hold corrected coordinate info 
+-- Create a working table to hold corrected coordinate info
 CREATE TABLE TMP_KOORDINAT (
     KOORTABLE VARCHAR(50) NOT NULL,
     REFNR INTEGER NOT NULL,
     JNR_BSIDE NUMBER,
     IN_DATE DATE NOT NULL,
     VERSNR INTEGER NOT NULL,
-    BERDATO DATE, 
-    E NUMBER, 
-    N NUMBER, 
+    BERDATO DATE,
+    E NUMBER,
+    N NUMBER,
     H NUMBER,
     KOOR_MF INTEGER,
     H_MF INTEGER,
     ARTSKODE INTEGER
 );
 
--- Insert corrected coordinate data with adjusted IN_DATE and new VERSNR. 
--- During this process we will harmonize the different data structures 
+-- Insert corrected coordinate data with adjusted IN_DATE and new VERSNR.
+-- During this process we will harmonize the different data structures
 -- (1D, 2D, 3D, TS) into one in order to ease querying later on.
 INSERT INTO TMP_KOORDINAT (KOORTABLE, REFNR, JNR_BSIDE, IN_DATE, VERSNR, BERDATO, E, N, H, KOOR_MF, H_MF, ARTSKODE)
 SELECT s.KOORTABLE, s.REFNR, s.JNR_BSIDE, s.IN_DATE, ROW_NUMBER() OVER (PARTITION BY s.KOORTABLE, s.REFNR ORDER BY s.KOORTABLE, s.REFNR, s.IN_DATE) AS VERSNR, s.BERDATO, s.E, s.N, s.H, s.KOOR_MF, s.H_MF, s.ARTSKODE FROM (
@@ -75,17 +75,17 @@ CREATE INDEX refnr_versnr ON TMP_KOORDINAT(REFNR, VERSNR);
 CREATE INDEX berdato ON TMP_KOORDINAT(BERDATO);
 CREATE INDEX koortable ON TMP_KOORDINAT(KOORTABLE);
 
--- Make lookup table KOOR_BERE_SAGSEVENTID containing every unique 
+-- Make lookup table KOOR_BERE_SAGSEVENTID containing every unique
 -- calculation timestamp for all coordinates and a new unique ID.
--- Will be used to create sagsevents and to populate column KOORDINAT.SAGSEVENTID 
--- and BEREGNING.SAGSEVENTID for all coordinates and calculations respectively   
+-- Will be used to create sagsevents and to populate column KOORDINAT.SAGSEVENTID
+-- and BEREGNING.SAGSEVENTID for all coordinates and calculations respectively
 CREATE TABLE KOOR_BERE_SAGSEVENTID (
     BERDATO TIMESTAMP(6) WITH TIME ZONE NOT NULL,
     SAID VARCHAR2(36) NOT NULL
 );
 INSERT INTO KOOR_BERE_SAGSEVENTID (BERDATO, SAID)
-SELECT 
-    BERDATO, 
+SELECT
+    BERDATO,
     REGEXP_REPLACE(SYS_GUID(), '(.{8})(.{4})(.{4})(.{4})(.{12})', '\1-\2-\3-\4-\5') AS SAID
 FROM TMP_KOORDINAT
 GROUP BY BERDATO
@@ -95,14 +95,14 @@ GROUP BY BERDATO
 INSERT INTO SAGSEVENT (ID, REGISTRERINGFRA, EVENT, SAGID)
 SELECT SAID, SYSDATE, 'koordinat_beregnet', '4f8f29c8-c38f-4c69-ae28-c7737178de1f'
 FROM KOOR_BERE_SAGSEVENTID
-;  
+;
 
 -- Create sagseventinfo based on REFGEO table JSNR_BER
 INSERT INTO SAGSEVENTINFO (REGISTRERINGFRA, BESKRIVELSE, SAGSEVENTID)
-SELECT 
-    se.REGISTRERINGFRA AS REGISTRERINGFRA, 
-    'Beregningsdato: [' || TO_CHAR(jinfo.BERDATO, 'YYYY-MM-DD HH24:MI') || '], initialer: ' || jinfo.INITIALER || ', sted: ' || jinfo.STED || ', tekst: ' || jinfo.TEKST AS BESKRIVELSE, 
-    se.ID AS SAGSEVENTID 
+SELECT
+    se.REGISTRERINGFRA AS REGISTRERINGFRA,
+    'Beregningsdato: [' || TO_CHAR(jinfo.BERDATO, 'YYYY-MM-DD HH24:MI') || '], initialer: ' || jinfo.INITIALER || ', sted: ' || jinfo.STED || ', tekst: ' || jinfo.TEKST AS BESKRIVELSE,
+    se.ID AS SAGSEVENTID
 FROM JSNR_BER@refgeo jinfo
 INNER JOIN (
     SELECT BERDATO FROM JSNR_BER@refgeo WHERE BERDATO IS NOT NULL GROUP BY BERDATO HAVING COUNT(*) = 1 -- exclude journal info when more than one journal exist
@@ -112,12 +112,12 @@ INNER JOIN SAGSEVENT se ON said.SAID = se.ID
 ;
 
 -- Create sagseventinfo_rapport if possible for each sag (calculation date)
-INSERT INTO SAGSEVENTINFO_RAPPORTHTML (SAGSEVENTINFOOBJECTID, RAPPORTHTML) 
+INSERT INTO SAGSEVENTINFO_RAPPORTHTML (SAGSEVENTINFOOBJECTID, RAPPORTHTML)
 SELECT se.OBJECTID, rap.RAPPORT
 FROM KOOR_BERE_SAGSEVENTID said
 INNER JOIN SAGSEVENT se ON said.SAID = se.ID
 INNER JOIN FIRE_BEREGNING rap ON said.BERDATO = rap.BEREGNINGSDATO
-;  
+;
 
 DELETE FROM KOORDINAT;
 
@@ -125,7 +125,7 @@ DELETE FROM KOORDINAT;
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
     SELECT cf.REFNR, 'EPSG:5799' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'dvr90' UNION ALL
     SELECT cf.REFNR, 'EPSG:5317' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'fvr09'
@@ -133,11 +133,11 @@ INNER JOIN
 INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
 
--- geo_ed50 + geo_ed87 + geo_nad83 + gi44 + gm91 + gs + gsb 
+-- geo_ed50 + geo_ed87 + geo_nad83 + gi44 + gm91 + gs + gsb
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
     SELECT cf.REFNR, 'EPSG:4230' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'geo_ed50' UNION ALL
     SELECT cf.REFNR, 'EPSG:4231' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'geo_ed87' UNION ALL
@@ -150,13 +150,13 @@ INNER JOIN
 INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
 
--- hpot_dvr90 + kk + kn44 + msl + os  
+-- hpot_dvr90 + kk + kn44 + msl + os
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
-    SELECT cf.REFNR, 'LOC:HPOT_DRV90' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'hpot_dvr90' UNION ALL
+    SELECT cf.REFNR, 'LOC:HPOT_DVR90' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'hpot_dvr90' UNION ALL
     SELECT cf.REFNR, 'DK:KK' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'kk' UNION ALL
     SELECT cf.REFNR, 'LOC:KN44' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'kn44' UNION ALL
     SELECT cf.REFNR, 'LOC:MSL' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'msl' UNION ALL
@@ -165,11 +165,11 @@ INNER JOIN
 INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
 
--- s34j   
+-- s34j
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
     SELECT cf.REFNR, 'DK:S34J' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 's34j'
 ) coor ON conv.REFNR = coor.REFNR
@@ -180,7 +180,7 @@ INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
     SELECT cf.REFNR, 'DK:S34S' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 's34s' UNION ALL
     SELECT cf.REFNR, 'DK:S45B' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 's45b'
@@ -192,7 +192,7 @@ INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
     SELECT cf.REFNR, 'DK:SB' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'sb' UNION ALL
     SELECT cf.REFNR, 'TS:LRL' AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'ts_lrl' UNION ALL
@@ -204,25 +204,25 @@ INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
 
 -- Merge 2D and 1D tables to 3D when possible. SZ is missing from the 1D data so we will use sZ = 3 x SX
--- geo_euref89 (2D) will be merged with ellh_euref89 (1D). When matched we use a 3D SRID (EPSG:4937), otherwise 2D (EPSG:4258). 
+-- geo_euref89 (2D) will be merged with ellh_euref89 (1D). When matched we use a 3D SRID (EPSG:4937), otherwise 2D (EPSG:4258).
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
-    SELECT cf.REFNR, CASE WHEN cf.ELLH IS NOT NULL THEN 'EPSG:4937' ELSE 'EPSG:4258' END AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.ELLH AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, (3*cf.KOOR_MF) AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE 
+    SELECT cf.REFNR, CASE WHEN cf.ELLH IS NOT NULL THEN 'EPSG:4937' ELSE 'EPSG:4258' END AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.ELLH AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, (3*cf.KOOR_MF) AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE
     FROM (
         SELECT xy.REFNR, xy.BERDATO, xy.E, xy.N, z.ELLH, xy.KOOR_MF, xy.IN_DATE, xy.VERSNR, xy.ARTSKODE FROM TMP_KOORDINAT xy LEFT JOIN ellh_euref89@refgeo z ON xy.REFNR = z.REFNR AND xy.BERDATO=z.CBERDATO WHERE xy.KOORTABLE = 'geo_euref89'
-    ) cf 
+    ) cf
     LEFT JOIN (
         SELECT xy.REFNR, xy.BERDATO, xy.E, xy.N, z.ELLH, xy.KOOR_MF, xy.IN_DATE, xy.VERSNR, xy.ARTSKODE FROM TMP_KOORDINAT xy LEFT JOIN ellh_euref89@refgeo z ON xy.REFNR = z.REFNR AND xy.BERDATO=z.CBERDATO WHERE xy.KOORTABLE = 'geo_euref89'
     ) ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR UNION ALL
-    
-    -- geo_gr96 (2D) will be merged with ellh_gr96 (1D). When matched we use a 3D SRID (EPSG:4909), otherwise 2D (EPSG:4747). 
-    SELECT cf.REFNR, CASE WHEN cf.ELLH IS NOT NULL THEN 'EPSG:4909' ELSE 'EPSG:4747' END AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.ELLH AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, (3*cf.KOOR_MF) AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE 
+
+    -- geo_gr96 (2D) will be merged with ellh_gr96 (1D). When matched we use a 3D SRID (EPSG:4909), otherwise 2D (EPSG:4747).
+    SELECT cf.REFNR, CASE WHEN cf.ELLH IS NOT NULL THEN 'EPSG:4909' ELSE 'EPSG:4747' END AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.ELLH AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, (3*cf.KOOR_MF) AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE
     FROM (
         SELECT xy.REFNR, xy.BERDATO, xy.E, xy.N, z.ELLH, xy.KOOR_MF, xy.IN_DATE, xy.VERSNR, xy.ARTSKODE FROM TMP_KOORDINAT xy LEFT JOIN ellh_gr96@refgeo z ON xy.REFNR = z.REFNR AND xy.BERDATO=z.CBERDATO WHERE xy.KOORTABLE = 'geo_gr96'
-    ) cf 
+    ) cf
     LEFT JOIN (
         SELECT xy.REFNR, xy.BERDATO, xy.E, xy.N, z.ELLH, xy.KOOR_MF, xy.IN_DATE, xy.VERSNR, xy.ARTSKODE FROM TMP_KOORDINAT xy LEFT JOIN ellh_gr96@refgeo z ON xy.REFNR = z.REFNR AND xy.BERDATO=z.CBERDATO WHERE xy.KOORTABLE = 'geo_gr96'
     ) ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR
@@ -231,11 +231,11 @@ INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 ;
 
 -- ts_dvr90 + ts_euref89
--- Time series (TS_DVR90 + TS_EUREF89) will be treated different as Jessenpunkt will be used as SRID    
+-- Time series (TS_DVR90 + TS_EUREF89) will be treated different as Jessenpunkt will be used as SRID
 INSERT INTO KOORDINAT (REGISTRERINGFRA, REGISTRERINGTIL, SRID, SX, SY, SZ, T, TRANSFORMERET, X, Y, Z, SAGSEVENTID, PUNKTID)
 SELECT coor.IN_DATE, coor.OUT_DATE, coor.SRID, coor.SX, coor.SY, coor.SZ, coor.T, CASE WHEN coor.ARTSKODE = 6 THEN 'true' ELSE 'false' END, coor.X, coor.Y, coor.Z, said.SAID, p.ID
 FROM PUNKT p INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN 
+INNER JOIN
 (
     SELECT cf.REFNR, 'TS:' || cf.JNR_BSIDE AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'ts_dvr90' UNION ALL
     SELECT cf.REFNR, 'TS:' || cf.JNR_BSIDE AS SRID, cf.BERDATO AS T, cf.E AS X, cf.N AS Y, cf.H AS Z, cf.KOOR_MF AS SX, cf.KOOR_MF AS SY, cf.H_MF AS SZ, cf.IN_DATE AS IN_DATE, ct.IN_DATE AS OUT_DATE, cf.ARTSKODE FROM TMP_KOORDINAT cf LEFT JOIN TMP_KOORDINAT ct ON cf.REFNR = ct.REFNR AND (cf.VERSNR+1) = ct.VERSNR AND cf.KOORTABLE = ct.KOORTABLE WHERE cf.KOORTABLE = 'ts_euref89'
@@ -247,4 +247,3 @@ INNER JOIN KOOR_BERE_SAGSEVENTID said ON coor.T = SAID.BERDATO
 DROP TABLE TMP_KOORDINAT PURGE;
 
 COMMIT;
- 
