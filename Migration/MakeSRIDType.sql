@@ -61,7 +61,7 @@ FROM (SELECT JNR_BSIDE, COUNT(*) FROM ts_dvr90@refgeo WHERE JNR_BSIDE BETWEEN 81
 
 -- TS:XXXX  derived from table ts_euref89(REFNR->GNSS or landsnr)
 INSERT INTO SRIDTYPE (BESKRIVELSE, SRID)
-SELECT 'ETRS89 tidsserie over ' || NVL(gnss.IDENT, landsnr.IDENT), 'TS:' || NVL(gnss.IDENT, landsnr.IDENT) 
+SELECT 'ETRS89 tidsserie over ' || REPLACE(NVL(gnss.IDENT, landsnr.IDENT), ' ', '_'), 'TS:' || REPLACE(NVL(gnss.IDENT, landsnr.IDENT), ' ', '_') 
 FROM (SELECT DISTINCT REFNR FROM ts_euref89@refgeo) ts 
 LEFT JOIN refadm.REFNR_IDENT@refgeo gnss ON ts.REFNR = gnss.REFNR AND gnss.IDENT_TYPE = 'GNSS' 
 LEFT JOIN refadm.REFNR_IDENT@refgeo landsnr ON ts.REFNR = landsnr.REFNR AND landsnr.IDENT_TYPE = 'landsnr' 
