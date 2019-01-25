@@ -29,19 +29,20 @@ DELETE FROM SRIDTYPE;
 /* (Pseudo)globale systemer */
 INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:4326',
     'Geografiske koordinater 2D: WGS84')
+INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:4258',
+    'Geografiske koordinater 2D: ETRS89')
 INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:4937',
     'Geografiske koordinater 3D: ETRS89')
 INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:4936',
     'Geocentrisk kartesiske koordinater 3D: ETRS89')
-INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:5714',
-    'Kotesystem: Lokal middelvandstand')
 
 INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:4230',
     'Geografiske koordinater 2D: ED50')
 INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:4231',
     'Geografiske koordinater 2D: ED87')
-INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:4258',
-    'Geografiske koordinater 2D: ETRS89')
+
+INSERT INTO SRIDTYPE (SRID, BESKRIVELSE) VALUES ('EPSG:5714',   /* Was: LOC:MSL */
+    'Kotesystem: Lokal middelvandstand')
 
 
 
