@@ -81,8 +81,8 @@ INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value
     'Geografiske koordinater 2D: GR96')
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4909',
     'Geografiske koordinater 3D: GR96')
-INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'GL:4747',
-    'Geografiske koordinater 2D: NAD83')
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'GL:NAD83G',
+    'Geografiske koordinater 2D: NAD83G (DEPRECATED')
 
 /* Tidsrækker */
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TS:LRL',
