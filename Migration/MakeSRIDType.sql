@@ -73,7 +73,7 @@ INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value
     'Projicerede koordinater 2D: System Storebælt')
 
 /* Færøske systemer */
-INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:5317',
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:5317', /* Was: FO:FVR09 */
     'Kotesystem: Færøsk Vertikal Reference 2009')
 
 /* Grønlandske systemer */
@@ -81,6 +81,8 @@ INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value
     'Geografiske koordinater 2D: GR96')
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4909',
     'Geografiske koordinater 3D: GR96')
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'GL:4747',
+    'Geografiske koordinater 2D: NAD83')
 
 /* Tidsrækker */
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TS:LRL',
