@@ -3,7 +3,8 @@ CREATE TABLE BEREGNING (
    OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
    REGISTRERINGFRA TIMESTAMP WITH TIME ZONE NOT NULL,
    REGISTRERINGTIL TIMESTAMP WITH TIME ZONE,
-   SAGSEVENTID VARCHAR2(36) NOT NULL
+   SAGSEVENTFRAID VARCHAR2(36) NOT NULL,
+   SAGSEVENTTILID VARCHAR2(36)
 );
 
 CREATE TABLE BEREGNING_KOORDINAT (
@@ -33,7 +34,8 @@ CREATE TABLE GEOMETRIOBJEKT (
    OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
    REGISTRERINGFRA TIMESTAMP WITH TIME ZONE NOT NULL,
    REGISTRERINGTIL TIMESTAMP WITH TIME ZONE,
-   SAGSEVENTID VARCHAR2(36) NOT NULL,
+   SAGSEVENTFRAID VARCHAR2(36) NOT NULL,
+   SAGSEVENTTILID VARCHAR2(36),
    GEOMETRI SDO_GEOMETRY NOT NULL,
    PUNKTID VARCHAR2(36) NOT NULL
 );
@@ -43,7 +45,8 @@ CREATE TABLE KOORDINAT (
    OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
    REGISTRERINGFRA TIMESTAMP WITH TIME ZONE NOT NULL,
    REGISTRERINGTIL TIMESTAMP WITH TIME ZONE,
-   SAGSEVENTID VARCHAR2(36) NOT NULL,
+   SAGSEVENTFRAID VARCHAR2(36) NOT NULL,
+   SAGSEVENTTILID VARCHAR2(36),
    SRIDID INTEGER NOT NULL,
    SX NUMBER,
    SY NUMBER,
@@ -76,7 +79,8 @@ CREATE TABLE OBSERVATION (
    VALUE13 NUMBER,
    VALUE14 NUMBER,
    VALUE15 NUMBER,
-   SAGSEVENTID VARCHAR2(36) NOT NULL,
+   SAGSEVENTFRAID VARCHAR2(36) NOT NULL,
+   SAGSEVENTTILID VARCHAR2(36),
    OBSERVATIONSTYPEID INTEGER NOT NULL,
    ANTAL INTEGER NOT NULL,
    GRUPPE INTEGER,
@@ -121,7 +125,8 @@ CREATE TABLE PUNKT (
    OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
    REGISTRERINGFRA TIMESTAMP WITH TIME ZONE NOT NULL,
    REGISTRERINGTIL TIMESTAMP WITH TIME ZONE,
-   SAGSEVENTID VARCHAR2(36) NOT NULL,
+   SAGSEVENTFRAID VARCHAR2(36) NOT NULL,
+   SAGSEVENTTILID VARCHAR2(36),
    ID VARCHAR2(36) NOT NULL
 );
 
@@ -130,7 +135,8 @@ CREATE TABLE PUNKTINFO (
    OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
    REGISTRERINGFRA TIMESTAMP WITH TIME ZONE NOT NULL,
    REGISTRERINGTIL TIMESTAMP WITH TIME ZONE,
-   SAGSEVENTID VARCHAR2(36) NOT NULL,
+   SAGSEVENTFRAID VARCHAR2(36) NOT NULL,
+   SAGSEVENTTILID VARCHAR2(36),
    INFOTYPEID INTEGER NOT NULL,
    TAL NUMBER,
    TEKST VARCHAR2(4000),
@@ -233,7 +239,8 @@ CREATE INDEX IDX_GEOMETRIOBJEKT_GEOMETRI ON GEOMETRIOBJEKT (GEOMETRI) INDEXTYPE 
 COMMENT ON TABLE BEREGNING IS 'Sammenknytter beregnede koordinater med de anvendte observationer.';
 COMMENT ON COLUMN BEREGNING.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
 COMMENT ON COLUMN BEREGNING.REGISTRERINGTIL IS 'Tidspunktet hvor en ny registrering er foretaget på objektet, og hvor denne version således ikke længere er den seneste.';
-COMMENT ON COLUMN BEREGNING.SAGSEVENTID IS 'Angivelse af den hændelse der har ændret et fikspunktsobjekt.';
+COMMENT ON COLUMN BEREGNING.SAGSEVENTFRAID IS 'Angivelse af den hændelse der har bevirket registrering af et fikspunktsobjekt';
+COMMENT ON COLUMN BEREGNING.SAGSEVENTTILID IS 'Angivelse af den hændelse der har bevirket afregistrering af et fikspunktsobjekt';
 COMMENT ON COLUMN BEREGNING_KOORDINAT.KOORDINATOBJECTID IS 'Udpegning af de koordinater der er indgået i en beregning.';
 COMMENT ON COLUMN BEREGNING_OBSERVATION.OBSERVATIONOBJECTID IS 'Udpegning af de observationer der er brugt i en beregning.';
 COMMENT ON TABLE EVENTTYPE IS 'Objekt til at holde en liste over lovlige typer af events i fikspunktsforvaltningssystemet, samt en beskrivelse hvad eventtypen dækker over.';
@@ -245,12 +252,14 @@ COMMENT ON COLUMN GEOMETRIOBJEKT.GEOMETRI IS 'Geometri til brug for visning i f.
 COMMENT ON COLUMN GEOMETRIOBJEKT.PUNKTID IS 'Punkt som har en placeringsgeometri tilknyttet.';
 COMMENT ON COLUMN GEOMETRIOBJEKT.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
 COMMENT ON COLUMN GEOMETRIOBJEKT.REGISTRERINGTIL IS 'Tidspunktet hvor en ny registrering er foretaget på objektet, og hvor denne version således ikke længere er den seneste.';
-COMMENT ON COLUMN GEOMETRIOBJEKT.SAGSEVENTID IS 'Angivelse af den hændelse der har ændret et fikspunktsobjekt.';
+COMMENT ON COLUMN GEOMETRIOBJEKT.SAGSEVENTFRAID IS 'Angivelse af den hændelse der har bevirket registrering af et fikspunktsobjekt';
+COMMENT ON COLUMN GEOMETRIOBJEKT.SAGSEVENTTILID IS 'Angivelse af den hændelse der har bevirket afregistrering af et fikspunktsobjekt';
 COMMENT ON TABLE KOORDINAT IS 'Generisk 4D koordinat.';
 COMMENT ON COLUMN KOORDINAT.PUNKTID IS 'Punkt som koordinaten hører til.';
 COMMENT ON COLUMN KOORDINAT.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
 COMMENT ON COLUMN KOORDINAT.REGISTRERINGTIL IS 'Tidspunktet hvor en ny registrering er foretaget på objektet, og hvor denne version således ikke længere er den seneste.';
-COMMENT ON COLUMN KOORDINAT.SAGSEVENTID IS 'Angivelse af den hændelse der har ændret et fikspunktsobjekt.';
+COMMENT ON COLUMN KOORDINAT.SAGSEVENTFRAID IS 'Angivelse af den hændelse der har bevirket registrering af et fikspunktsobjekt';
+COMMENT ON COLUMN KOORDINAT.SAGSEVENTTILID IS 'Angivelse af den hændelse der har bevirket afregistrering af et fikspunktsobjekt';
 COMMENT ON COLUMN KOORDINAT.SRIDID IS 'Unik ID i fikspunktsforvaltningssystemet for et et koordinatsystem.';
 COMMENT ON COLUMN KOORDINAT.SX IS 'A posteriori spredning på førstekoordinaten.';
 COMMENT ON COLUMN KOORDINAT.SY IS 'A posteriori spredning på andenkoordinaten.';
@@ -268,7 +277,8 @@ COMMENT ON COLUMN OBSERVATION.OBSERVATIONSTYPEID IS 'Identifikation af en observ
 COMMENT ON COLUMN OBSERVATION.OPSTILLINGSPUNKTID IS 'Udpegning af det punkt der er anvendt ved opstilling ved en observation.';
 COMMENT ON COLUMN OBSERVATION.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
 COMMENT ON COLUMN OBSERVATION.REGISTRERINGTIL IS 'Tidspunktet hvor en ny registrering er foretaget på objektet, og hvor denne version således ikke længere er den seneste.';
-COMMENT ON COLUMN OBSERVATION.SAGSEVENTID IS 'Angivelse af den hændelse der har ændret et fikspunktsobjekt.';
+COMMENT ON COLUMN OBSERVATION.SAGSEVENTFRAID IS 'Angivelse af den hændelse der har bevirket registrering af et fikspunktsobjekt';
+COMMENT ON COLUMN OBSERVATION.SAGSEVENTTILID IS 'Angivelse af den hændelse der har bevirket afregistrering af et fikspunktsobjekt';
 COMMENT ON COLUMN OBSERVATION.SIGTEPUNKTID IS 'Udpegning af punkt der er sigtet til ved en observation.';
 COMMENT ON COLUMN OBSERVATION.VALUE1 IS 'En værdi for en observation.';
 COMMENT ON COLUMN OBSERVATION.VALUE10 IS 'En værdi for en observation.';
@@ -312,13 +322,15 @@ COMMENT ON TABLE PUNKT IS 'Abstrakt repræsentation af et fysisk punkt. Knytter 
 COMMENT ON COLUMN PUNKT.ID IS 'Persistent unik nøgle.';
 COMMENT ON COLUMN PUNKT.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
 COMMENT ON COLUMN PUNKT.REGISTRERINGTIL IS 'Tidspunktet hvor en ny registrering er foretaget på objektet, og hvor denne version således ikke længere er den seneste.';
-COMMENT ON COLUMN PUNKT.SAGSEVENTID IS 'Angivelse af den hændelse der har ændret et fikspunktsobjekt.';
+COMMENT ON COLUMN PUNKT.SAGSEVENTFRAID IS 'Angivelse af den hændelse der har bevirket registrering af et fikspunktsobjekt';
+COMMENT ON COLUMN PUNKT.SAGSEVENTTILID IS 'Angivelse af den hændelse der har bevirket afregistrering af et fikspunktsobjekt';
 COMMENT ON TABLE PUNKTINFO IS 'Generisk information om et punkt.';
 COMMENT ON COLUMN PUNKTINFO.INFOTYPEID IS 'Unik ID for typen af Punktinfo.';
 COMMENT ON COLUMN PUNKTINFO.PUNKTID IS 'Punktet som punktinfo er holder information om.';
 COMMENT ON COLUMN PUNKTINFO.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
 COMMENT ON COLUMN PUNKTINFO.REGISTRERINGTIL IS 'Tidspunktet hvor en ny registrering er foretaget på objektet, og hvor denne version således ikke længere er den seneste.';
-COMMENT ON COLUMN PUNKTINFO.SAGSEVENTID IS 'Angivelse af den hændelse der har ændret et fikspunktsobjekt.';
+COMMENT ON COLUMN PUNKTINFO.SAGSEVENTFRAID IS 'Angivelse af den hændelse der har bevirket registrering af et fikspunktsobjekt';
+COMMENT ON COLUMN PUNKTINFO.SAGSEVENTTILID IS 'Angivelse af den hændelse der har bevirket afregistrering af et fikspunktsobjekt';
 COMMENT ON COLUMN PUNKTINFO.TAL IS 'Værdien for numeriske informationselementer';
 COMMENT ON COLUMN PUNKTINFO.TEKST IS 'Værdien for tekstinformationselementer';
 COMMENT ON TABLE PUNKTINFOTYPE IS 'Udfaldsrum for punktinforobjekter med definition af hvordan PunktInfo skal læses og beskrivelse af typen af punktinfo.';
@@ -549,7 +561,7 @@ IF :new.REGISTRERINGFRA != :old.REGISTRERINGFRA THEN RAISE_APPLICATION_ERROR(-20
 --IF :new.REGISTRERINGTIL != :old.REGISTRERINGTIL THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
 
-IF :new.SAGSEVENTID != :old.SAGSEVENTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
+IF :new.SAGSEVENTFRAID != :old.SAGSEVENTFRAID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
 end;
 /
@@ -568,7 +580,7 @@ IF :new.REGISTRERINGFRA != :old.REGISTRERINGFRA THEN RAISE_APPLICATION_ERROR(-20
 
 -- IF :new.REGISTRERINGTIL != :old.REGISTRERINGTIL THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
-IF :new.SAGSEVENTID != :old.SAGSEVENTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
+IF :new.SAGSEVENTFRAID != :old.SAGSEVENTFRAID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
 IF :new.PUNKTID != :old.PUNKTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
@@ -605,7 +617,7 @@ IF :new.Y != :old.Y THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this 
 
 IF :new.Z != :old.Z THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
-IF :new.SAGSEVENTID != :old.SAGSEVENTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
+IF :new.SAGSEVENTFRAID != :old.SAGSEVENTFRAID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
 IF :new.PUNKTID != :old.PUNKTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
@@ -661,7 +673,7 @@ IF :new.VALUE14 != :old.VALUE14 THEN RAISE_APPLICATION_ERROR(-20000,'You cannot 
 
 IF :new.VALUE15 != :old.VALUE15 THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
-IF :new.SAGSEVENTID != :old.SAGSEVENTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
+IF :new.SAGSEVENTFRAID != :old.SAGSEVENTFRAID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
 IF :new.OPSTILLINGSPUNKTID != :old.OPSTILLINGSPUNKTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
@@ -683,7 +695,7 @@ IF :new.REGISTRERINGFRA != :old.REGISTRERINGFRA THEN RAISE_APPLICATION_ERROR(-20
 
 IF :new.ID != :old.ID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
-IF :new.SAGSEVENTID != :old.SAGSEVENTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
+IF :new.SAGSEVENTFRAID != :old.SAGSEVENTFRAID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot update this column '); END IF;
 
 end;
 /
@@ -1056,4 +1068,4 @@ VALUES ('bruges når nye koordinater skabes. Knytter observationer til koordinat
 INSERT INTO EVENTTYPE (BESKRIVELSE, EVENT, EVENTTYPEID)
 VALUES ('bruges til at tilføje fritekst kommentarer til sagen i tilfælde af at der er behov for at påhæfte sagen yderligere information som ikke passer i andre hændelser. Bruges fx også til påhæftning af materiale på sagen.', 'kommentar', 10);
 
--- End
+-- End
