@@ -6,7 +6,7 @@
 -- Populate BEREGNING based on the previously established sagseventid for every
 -- calculation time. Notice that we will set the value of REGISTRERINGFRA to 
 -- calculation time and not sysdate.
-INSERT INTO BEREGNING (REGISTRERINGFRA, SAGSEVENTID)
+INSERT INTO BEREGNING (REGISTRERINGFRA, SAGSEVENTFRAID)
 SELECT BERDATO, SAID
 FROM KOOR_BERE_SAGSEVENTID
 ;
