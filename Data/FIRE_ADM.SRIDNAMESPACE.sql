@@ -3,32 +3,28 @@
 --
 --  SELECT * FROM FIRE_ADM.SRIDNAMESPACE;
 --
-Insert into SRIDNAMESPACE
+Insert into FIRE_ADM.SRIDNAMESPACE
    (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (1, 'DK', 'Ingen beskrivelse');
-Insert into SRIDNAMESPACE
+   (1, 'DK', 'SDFE register over danske systemer');
+Insert into FIRE_ADM.SRIDNAMESPACE
    (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (2, 'EPSG', 'Ingen beskrivelse');
-Insert into SRIDNAMESPACE
+   (2, 'EPSG', 'IOGP Geodetic Parameter Registry');
+Insert into FIRE_ADM.SRIDNAMESPACE
    (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (3, 'FO', 'Ingen beskrivelse');
-Insert into SRIDNAMESPACE
+   (3, 'FO', 'SDFE register over færøske systemer');
+Insert into FIRE_ADM.SRIDNAMESPACE
    (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (4, 'GL', 'Ingen beskrivelse');
-Insert into SRIDNAMESPACE
+   (4, 'GL', 'SDFE register over grønlandske systemer');
+Insert into FIRE_ADM.SRIDNAMESPACE
    (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (5, 'LOC', 'Ingen beskrivelse');
-Insert into SRIDNAMESPACE
+   (5, 'NKG', 'Nordisk Kommission for Geodæsi register over nordisk/baltiske systemer');
+Insert into FIRE_ADM.SRIDNAMESPACE
    (OBJECTID, NAMESPACE, BESKRIVELSE)
  Values
-   (6, 'NKG', 'Ingen beskrivelse');
-Insert into SRIDNAMESPACE
-   (OBJECTID, NAMESPACE, BESKRIVELSE)
- Values
-   (7, 'TS', 'Ingen beskrivelse');
+   (6, 'TS', 'SDFE register over tidsrækker');
 COMMIT;
