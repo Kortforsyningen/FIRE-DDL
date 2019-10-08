@@ -19,6 +19,8 @@ from fireapi.model import (
     SagseventInfo,
 )
 
+ATTRIBUT = "NET:DVR90"
+
 def get_punkt(ident: str) -> str:
     """
     Vis al tilgængelig information om et fikspunkt
@@ -31,9 +33,10 @@ def get_punkt(ident: str) -> str:
     pi = aliased(PunktInformation)
     pit = aliased(PunktInformationType)
 
-
     punktinfo = (
-        firedb.session.query(pi).filter(pit.name.startswith("IDENT:"), pi.tekst == ident).all()
+        firedb.session.query(pi)
+        .filter(pit.name.startswith("IDENT:"), pi.tekst == ident)
+        .all()
     )
     n = len(punktinfo)
     if n == 0:
@@ -44,34 +47,35 @@ def get_punkt(ident: str) -> str:
     return punkt
 
 
-sagsbeskrivelse ="""Registrering af punkter der indgik i den oprindelige DVR90-udjævning.
+sagsbeskrivelse = f"""Registrering af punkter der indgik i den oprindelige DVR90-udjævning.
 
-Punkterne markeres med NET:DVR90.
+Punkterne markeres med {ATTRIBUT}.
 
 Se "Klaus Schmidt, 2000, The Danish height system DVR90" for yderligere information om udjævningen.
 """
 
+
 def main():
-    with open("definerende_dvr90_punkter.txt") as f:
-        punkter = [punkt.strip() for punkt in f.readlines()]
 
-        sagsinfo = fireapi.model.Sagsinfo(
-            aktiv="true",
-            behandler="Kristian Evers",
-            beskrivelse=sagsbeskrivelse,
-        )
-        sag = Sag(id=str(uuid.uuid4()), sagsinfos=[sagsinfo])
-
-        sagseventinfo = SagseventInfo(
-            beskrivelse="Indsættelse af NET:DVR90 attibutter"
-        )
-
-        infotype = PunktInformationType(
-            name="NET:TEST",
-            infotypeid=370, # manuelt bestemt, sættes ikke automatisk
+    firedb.indset_punktinformationtype(
+        PunktInformationType(
+            name=ATTRIBUT,
             anvendelse=fireapi.model.PunktInformationTypeAnvendelse.FLAG,
             beskrivelse="Punkter i den oprindelige DVR90-udjævning",
         )
+    )
+    infotype = firedb.hent_punktinformationtype(ATTRIBUT)
+
+    sagsinfo = Sagsinfo(
+        aktiv="true", behandler="Kristian Evers", beskrivelse=sagsbeskrivelse
+    )
+    sagid = str(uuid.uuid4())
+    firedb.indset_sag(Sag(id=sagid, sagsinfos=[sagsinfo]))
+    sag =  firedb.hent_sag(sagid)
+
+
+    with open("definerende_dvr90_punkter.txt") as f:
+        punkter = [punkt.strip() for punkt in f.readlines()]
 
         punktinformationer = []
         # interaktion med databasen er pokkers langsomt, vis fremdrift
@@ -83,21 +87,18 @@ def main():
                     print(f"Ident ikke fundet: {ident}")
                     continue
 
-                pi = PunktInformation(
-                    infotype=infotype,
-                    punkt=punkt,
-                )
+                pi = PunktInformation(infotype=infotype, punkt=punkt)
                 punktinformationer.append(pi)
 
-        sagsevent = Sagsevent(
-            id=str(uuid.uuid4()),
-            sag=sag,
-            eventtype=fireapi.model.EventType.PUNKTINFO_TILFOEJET,
-            sagseventinfos=[sagseventinfo],
-            punktinformationer=punktinformationer,
-        )
+    sagseventinfo = SagseventInfo(beskrivelse=f"Indsættelse af {ATTRIBUT} attibutter")
+    sagsevent = Sagsevent(
+        id=str(uuid.uuid4()),
+        sag=sag,
+        eventtype=fireapi.model.EventType.PUNKTINFO_TILFOEJET,
+        sagseventinfos=[sagseventinfo],
+        punktinformationer=punktinformationer,
+    )
+    firedb.indset_sagsevent(sagsevent)
 
-        firedb.indset_sag(sag)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
