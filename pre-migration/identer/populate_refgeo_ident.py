@@ -1,11 +1,14 @@
 import json
 
+from pathlib import Path
+
 import click
 import cx_Oracle
 
 from db_connect import (usr, pwd, server, service, port)
 
-FILE = 'identer.json'
+BASE = Path(__file__).parents[0]
+FILE = BASE / Path('identer.json')
 
 with open(FILE, 'r') as f:
     identer = json.load(f)

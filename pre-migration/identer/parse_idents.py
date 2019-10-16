@@ -2,14 +2,19 @@ import json
 import itertools
 import re
 from collections import namedtuple
+from pathlib import Path
 
 import click
 
 
 Ident = namedtuple('Ident', ['ident', 'type'])
 
-IDENT_FILE = 'idents_clean.txt'
-#IDENT_FILE = 'identer_test.txt'
+BASE = Path(__file__).parents[0]
+IDENT_FILE = BASE / Path('idents_clean.txt')
+#IDENT_FILE = BASE / Path('identer_test.txt')
+
+JSON_FILE = BASE / Path('identer.json')
+REFNR_FILE = BASE / Path('refnr.txt')
 
 REGIONS = ('DK', 'EE', 'GL', 'SJ', 'FO', 'SE', 'FI')
 REGIONS_REGEX = '|'.join(REGIONS)
@@ -40,7 +45,7 @@ def parse_ident_type(ident: str, region: str) -> str:
     return 'diverse'
 
 # get a list of refnr
-with open('refnr.txt') as f:
+with open(REFNR_FILE) as f:
     refnumre = [int(l) for l in f.readlines()]
 
 identer = []
@@ -99,5 +104,5 @@ with open(IDENT_FILE, 'r') as ident_fil:
             identer.extend(temp_idents)
 
 
-with open('identer.json', 'w') as out:
+with open(JSON_FILE, 'w') as out:
     json.dump(identer, out, indent=4)

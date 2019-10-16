@@ -1,1 +1,4 @@
 pre-migration/identer/db_connect.py
+logs/*
+db_setup.bat
+__pycache__

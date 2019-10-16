@@ -1,9 +1,9 @@
 import uuid
+from pathlib import Path
 
 import sqlalchemy
 from sqlalchemy.orm import aliased
 from sqlalchemy.orm.exc import NoResultFound
-
 import click
 
 import firecli
@@ -19,6 +19,7 @@ from fireapi.model import (
     SagseventInfo,
 )
 
+POINT_FILE = Path(__file__).parents[0] / Path("definerende_dvr90_punkter.txt")
 ATTRIBUT = "NET:DVR90"
 
 def get_punkt(ident: str) -> str:
@@ -74,7 +75,7 @@ def main():
     sag =  firedb.hent_sag(sagid)
 
 
-    with open("definerende_dvr90_punkter.txt") as f:
+    with open(POINT_FILE) as f:
         punkter = [punkt.strip() for punkt in f.readlines()]
 
         punktinformationer = []
