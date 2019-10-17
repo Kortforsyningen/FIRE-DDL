@@ -1,6 +1,6 @@
 ﻿/* -------------------------------------------------------------------------- */
-/* Make PUNKTINFOTYPE data. 
-/* File: MakePunktInfoType.sql   
+/* Make PUNKTINFOTYPE data.
+/* File: MakePunktInfoType.sql
 /* -------------------------------------------------------------------------- */
 
 /*
@@ -61,6 +61,8 @@ INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES
 INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TEKST','ID (refnr) fra REFGEO','IDENT:refgeo_id');
 INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TEKST','Jessennummer','IDENT:jessen');
 INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TEKST','GI og GM-nummre','IDENT:GI');
+INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TEKST','Nummer på målestation','IDENT:station');
+INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TEKST','Ekstern identifikator','IDENT:ekstern');
 INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TEKST','Identtyper der forekommer sporadisk','IDENT:diverse');
 
 -- NET
@@ -82,8 +84,8 @@ INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE) VALUES
 INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE, INFOTYPE)
 SELECT FLOOR(dbms_random.value(1,1E9)), 'FLAG', s.TEKST, 'REGION:' || s.INFOTYPE
 FROM (
-    SELECT DISTINCT rg.RGN_PRFX AS INFOTYPE, rg.RGN_NAME AS TEKST 
-    FROM HVD_REF@refgeo href 
+    SELECT DISTINCT rg.RGN_PRFX AS INFOTYPE, rg.RGN_NAME AS TEKST
+    FROM HVD_REF@refgeo href
     INNER JOIN RGN_TABLE@refgeo rg ON href.RGN = rg.RGN_NO
 ) s;
 
@@ -91,7 +93,7 @@ FROM (
 INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','Relativ sti til billedfil. Kan enten være i PNG eller SVG format','SKITSE:sti');
 INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','MD5 sum af billedfilen','SKITSE:md5');
 
--- Set INFOTYPEID to equal OBJECTID - just a hack to make it unique 
+-- Set INFOTYPEID to equal OBJECTID - just a hack to make it unique
 UPDATE PUNKTINFOTYPE SET INFOTYPEID = OBJECTID;
 
 COMMIT;
