@@ -33,7 +33,7 @@ def parse_ident_type(ident: str, region: str) -> str:
     if re.match("^\D\w\w\w$", ident):
         return "GNSS"
 
-    if re.match("^\w{0,2}[\w\s]-\d{2}-[\w|\s|\.]{1,5}([.]\d{4})?$", ident):
+    if re.match("^\w{0,2}[\w\s]-\d{2}-[\w|\s|\.]{1,5}([.]\d{1,4})?$", ident):
         return "landsnr"
 
     if re.match("^81\s?\d{3}$", ident) and region not in REGIONS:
