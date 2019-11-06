@@ -45,10 +45,8 @@ def parse_ident_type(ident: str, region: str) -> str:
     if re.match("^\d{4}/\w", ident):
         return "ekstern"
 
-    # matcher identer i stil med "201 051.2010" og "10 001"
-    #if re.match("\d{0,3}\s\d{1,3}(\.\d{4})?", ident):
-    # matcher identer som ovenstående samt "22 490 K 2" og "22 486 V"
-    if re.match("^\d{1,6}(([.]\d{4})|([a-zA-Z]\d?))?$", ident):
+    # matcher identer i stil med "201 051.2010", 3 423.1 og "10 001"
+    if re.match("^\d{1,6}(([.]\d{1,4})|([a-zA-Z]\d?))?$", ident):
             return "station"
 
     return "diverse"
