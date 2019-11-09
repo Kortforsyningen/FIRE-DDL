@@ -221,6 +221,9 @@ CREATE TABLE SRIDNAMESPACE (
 CREATE TABLE SRIDTYPE (
 
    OBJECTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
+   X VARCHAR2(4000),
+   Y VARCHAR2(4000),
+   Z VARCHAR2(4000),
    SRIDID INTEGER NOT NULL,
    SRID VARCHAR2(36) NOT NULL,
    BESKRIVELSE VARCHAR2(4000) NOT NULL
@@ -373,6 +376,9 @@ COMMENT ON TABLE SRIDTYPE IS 'Udfaldsrum for SRID-koordinatbeskrivelser.';
 COMMENT ON COLUMN SRIDTYPE.BESKRIVELSE IS 'Generel beskrivelse af systemet.';
 COMMENT ON COLUMN SRIDTYPE.SRID IS 'Den egentlige referencesystemindikator.';
 COMMENT ON COLUMN SRIDTYPE.SRIDID IS 'Unik ID i fikspunktsforvaltningssystemet for et et koordinatsystem.';
+COMMENT ON COLUMN SRIDTYPE.X IS 'Beskrivelse af x-koordinatens indhold';
+COMMENT ON COLUMN SRIDTYPE.Y IS 'Beskrivelse af y-koordinatens indhold.';
+COMMENT ON COLUMN SRIDTYPE.Z IS 'Beskrivelse af z-koordinatens indhold.';
 
 -- Constraints og triggers ikke defineret i modellen
 -- Constraint der tjekker at PUNKTID eksisterer i PUNKT tabellen inden en række sættes ind i KOORDINAT-, OBESARVATION- og PUNKTINFO-tabellen
@@ -624,7 +630,7 @@ IF :new.PUNKTID != :old.PUNKTID THEN RAISE_APPLICATION_ERROR(-20000,'You cannot 
 end;
 /
 
-
+-- Trigger der sikre at indeholdet i tabellen OBSERVATION matcher hvad der er specificeret omkring observationstypen i OBSERVATIONTYPE tabellen
 CREATE OR REPLACE TRIGGER AUD#OBSERVATION
 after update ON OBSERVATION
 for each row
@@ -681,6 +687,42 @@ IF :new.SIGTEPUNKTID != :old.SIGTEPUNKTID THEN RAISE_APPLICATION_ERROR(-20000,'Y
 
 end;
 /
+
+-- Trigger der sikre at indeholdet i tabellen KOORDINAT matcher hvad der er specificeret omkring SRID i SRIDTYPE tabellen
+CREATE OR REPLACE TRIGGER AIU#KOORDINAT
+after insert Or UPDATE ON KOORDINAT
+for each row
+declare
+   valX varchar2(4000):= '';
+   valY varchar2(4000):= '';
+   valZ varchar2(4000):= '';
+begin
+
+  select x,
+         y,
+         z into
+         valX,
+         valY,
+         valZ
+  from sridtype a
+  where A.SRIDID = :new.SRIDID;
+
+
+  if (:new.X is null OR :new.SX is NULL) and valX is not null THEN
+    RAISE_APPLICATION_ERROR(-20000,'Hverken X eller SX må ikke være NULL');
+  end if;
+
+  if (:new.Y is null OR :new.SY is NULL) and valY is not null THEN
+    RAISE_APPLICATION_ERROR(-20000,'Hverken Y eller SY må ikke være NULL');
+  end if;
+
+  if (:new.Z is null OR :new.SZ is NULL) and valZ is not null THEN
+    RAISE_APPLICATION_ERROR(-20000,'Hverken Z eller SZ må ikke være NULL');
+  end if;
+
+end;
+/
+
 
 
 CREATE OR REPLACE TRIGGER AUD#PUNKT
