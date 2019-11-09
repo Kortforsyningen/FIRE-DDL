@@ -108,5 +108,6 @@ echo.exit )| sqlplus -S %CON% > logs\MakeBeregning.txt
 
 REM ========================== Post migration ================================
 python post-migration\dvr90net\indset_dvr90net.py
+python post-migration\indset_fundamentalpunkter.py
 
 grep ERROR logs/*.txt
