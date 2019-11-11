@@ -66,15 +66,19 @@ with open(IDENT_FILE, "r") as ident_fil:
 
             # Split before region when only one space between idents
             line = re.sub("(\w)(\s{1,})" + f"({REGIONS_REGEX})", r"\1~\3", line)
+            #print(line)
 
             # Reduce to only one space between region and ident
-            line = re.sub(f"([{REGIONS_REGEX}] )(\s*)(\w)", r"\1\3", line)
+            line = re.sub(f"({REGIONS_REGEX}) (\s*)(\w)", r"\1 \3", line)
+            #print(line)
 
             # Split on two or more spaces
             line = re.sub("(\w)(\s{2,})(\w)", r"\1~\3", line)
+            #print(line)
 
             # list(dict.fromkeys()) removes duplicate entries and preserves order
             idents = list(dict.fromkeys(line.strip().split("~")))
+            #print(idents)
 
             temp_idents = []
 
