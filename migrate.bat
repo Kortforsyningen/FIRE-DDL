@@ -2,6 +2,8 @@
 REM Setup
 set PATH=%PATH%;C:\oracle\instantclient_19_3
 set ORACLE_HOME=C:\oracle
+REM Path to login.sql
+set SQLPATH=C:\dev\fire\fire-ddl
 set NLS_LANG=.AL32UTF8
 
 CALL db_setup.bat
@@ -9,12 +11,12 @@ set CON=%DB_USER%/%DB_PASS%@%DB_HOST%:%DB_PORT%/%DB_SERV%
 REM ========================== Pre migration ================================
 REM
 REM IDENTER
-python pre-migration\identer\refnr2ident.py
-scp pre-migration\identer\refnr.txt regn@reffs1t:/home/regn/FIRE/refnr.txt
-ssh regn@reffs1t './FIRE/extract_idents.sh'
-scp regn@reffs1t:/home/regn/FIRE/idents_clean.txt pre-migration\identer\idents_clean.txt
-python pre-migration\identer\parse_idents.py
-python pre-migration\identer\populate_refgeo_ident.py
+REM python pre-migration\identer\refnr2ident.py
+REM scp pre-migration\identer\refnr.txt regn@reffs1t:/home/regn/FIRE/refnr.txt
+REM ssh regn@reffs1t './FIRE/extract_idents.sh'
+REM scp regn@reffs1t:/home/regn/FIRE/idents_clean.txt pre-migration\identer\idents_clean.txt
+REM python pre-migration\identer\parse_idents.py
+REM python pre-migration\identer\populate_refgeo_ident.py
 
 
 REM ============================ Migration ==================================
@@ -22,89 +24,55 @@ REM ============================ Migration ==================================
 REM sqlplus -S %CON% @sqlplus.sql 2> errors.log
 
 echo Migration\ClearDB.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\ClearDB.sql
-echo.exit )| sqlplus -S %CON% > logs\ClearDB.txt
+echo exit | sqlplus -S %CON% @Migration\ClearDB.sql > logs\ClearDB.txt
 
 echo DDL.sql
-(echo.SET SQLBLANKLINES ON
-echo.START DDL.sql
-echo.exit )| sqlplus -S %CON% > logs\DDL.txt
+echo exit | sqlplus -S %CON% @DDL.sql > logs\DDL.txt
 
 echo insertFIRERows.sql
-(echo.SET SQLBLANKLINES ON
-echo.START insertFIRERows.sql
-echo.exit )| sqlplus -S %CON% > logs\insertFIRERows.txt
+echo exit | sqlplus -S %CON% @insertFIRERows.sql > logs\insertFIRERows.txt
 
 echo Migration\MakeSRIDType.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakeSRIDType.sql
-echo.exit )| sqlplus -S %CON% > logs\MakeSRIDType.txt
+echo exit | sqlplus -S %CON% @Migration\MakeSRIDType.sql > logs\MakeSRIDType.txt
 
 echo Migration\MakePunktInfoType.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunktInfoType.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunktInfoType.txt
+echo exit | sqlplus -S %CON%  @Migration\MakePunktInfoType.sql > logs\MakePunktInfoType.txt
 
 echo Migration\MakeIds.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakeIds.sql
-echo.exit )| sqlplus -S %CON% > logs\MakeIds.txt
+echo exit | sqlplus -S %CON% @Migration\MakeIds.sql > logs\MakeIds.txt
 
 echo Migration\MakePunkt.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunkt.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunkt.txt
+echo exit | sqlplus -S %CON% @Migration\MakePunkt.sql > logs\MakePunkt.txt
 
 echo Migration\MakeGeometriObjekt.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakeGeometriObjekt.sql
-echo.exit )| sqlplus -S %CON% > logs\MakeGeometriObjekt.txt
+echo exit | sqlplus -S %CON% @Migration\MakeGeometriObjekt.sql > logs\MakeGeometriObjekt.txt
 
 echo Migration\MakeKoordinat.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakeKoordinat.sql
-echo.exit )| sqlplus -S %CON% > logs\MakeKoordinat.txt
+echo exit | sqlplus -S %CON% @Migration\MakeKoordinat.sql > logs\MakeKoordinat.txt
 
 echo Migration\MakePunktInfoAFM.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunktInfoAFM.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunktInfoAFM.txt
+echo exit | sqlplus -S %CON% @Migration\MakePunktInfoAFM.sql > logs\MakePunktInfoAFM.txt
 
 echo Migration\MakePunktInfoIDENT.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunktInfoATTR.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunktInfoATTR.txt
+echo exit | sqlplus -S %CON%  @Migration\MakePunktInfoIDENT.sql > logs\MakePunktInfoATTR.txt
 
 echo Migration\MakePunktInfoIDENT.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunktInfoIDENT.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunktInfoIDENT.txt
+echo exit | sqlplus -S %CON% @Migration\MakePunktInfoIDENT.sql > logs\MakePunktInfoIDENT.txt
 
 echo Migration\MakePunktInfoNET.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunktInfoNET.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunktInfoNET.txt
+echo exit | sqlplus -S %CON% @Migration\MakePunktInfoNET.sql > logs\MakePunktInfoNET.txt
 
 echo Migration\MakePunktInfoREGION.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunktInfoREGION.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunktInfoREGION.txt
+echo exit | sqlplus -S %CON% @Migration\MakePunktInfoREGION.sql > logs\MakePunktInfoREGION.txt
 
 echo Migration\MakePunktInfoSKITSE.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakePunktInfoSKITSE.sql
-echo.exit )| sqlplus -S %CON% > logs\MakePunktInfoSKITSE.txt
+echo exit | sqlplus -S %CON%  @Migration\MakePunktInfoSKITSE.sql > logs\MakePunktInfoSKITSE.txt
 
 echo Migration\MakeObservation.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakeObservation.sql
-echo.exit )| sqlplus -S %CON% > logs\MakeObservation.txt
+echo exit | sqlplus -S %CON% @Migration\MakeObservation.sql > logs\MakeObservation.txt
 
 echo Migration\MakeBeregning.sql
-(echo.SET SQLBLANKLINES ON
-echo.START Migration\MakeBeregning.sql
-echo.exit )| sqlplus -S %CON% > logs\MakeBeregning.txt
+echo exit | sqlplus -S %CON% @Migration\MakeBeregning.sql > logs\MakeBeregning.txt
 
 REM ========================== Post migration ================================
 python post-migration\dvr90net\indset_dvr90net.py
