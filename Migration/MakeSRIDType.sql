@@ -83,6 +83,11 @@ INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y, Z) VALUES (FLOOR(dbms_ran
     'Geografiske koordinater 3D: GR96', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]', 'Ellipsoidehøjde [m]');
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y) VALUES (FLOOR(dbms_random.value(1,1E9)), 'GL:NAD83G',
     'Geografiske koordinater 2D: NAD83G (DEPRECATED)', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]');
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:8266',
+    'Kotesystem: Grønlands Vertikal Reference 2000', 'Kote [m]');
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:8267',
+    'Kotesystem: Grønlands Vertikal Reference 2016', 'Kote [m]');
+
 
 /* Tidsrækker */
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'TS:LRL',
