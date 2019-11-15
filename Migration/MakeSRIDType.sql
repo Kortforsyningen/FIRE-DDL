@@ -29,9 +29,9 @@ INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y, Z) VALUES (FLOOR(dbms_ran
     'Geografiske koordinater 3D: ETRS89', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]','Ellipsoidehøjde [m]');
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4936',
     'Geocentrisk kartesiske koordinater 3D: ETRS89', 'X [m]', 'Y [m]', 'Z [m]');
-INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4230',
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4230',
     'Geografiske koordinater 2D: ED50', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]');
-INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4231',
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4231',
     'Geografiske koordinater 2D: ED87', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]');
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:5714',
     'Kotesystem: Lokal middelvandstand', 'Kote [m]');
@@ -81,7 +81,7 @@ INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y) VALUES (FLOOR(dbms_random
     'Geografiske koordinater 2D: GR96', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]');
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:4909',
     'Geografiske koordinater 3D: GR96', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]', 'Ellipsoidehøjde [m]');
-INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'GL:NAD83G',
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y) VALUES (FLOOR(dbms_random.value(1,1E9)), 'GL:NAD83G',
     'Geografiske koordinater 2D: NAD83G (DEPRECATED)', 'Længdegrad [decimalgrader]', 'Breddegrad [decimalgrader]');
 
 /* Tidsrækker */
