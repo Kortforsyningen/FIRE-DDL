@@ -53,8 +53,8 @@ echo exit | sqlplus -S %CON% @Migration\MakeKoordinat.sql > logs\MakeKoordinat.t
 echo Migration\MakePunktInfoAFM.sql
 echo exit | sqlplus -S %CON% @Migration\MakePunktInfoAFM.sql > logs\MakePunktInfoAFM.txt
 
-echo Migration\MakePunktInfoIDENT.sql
-echo exit | sqlplus -S %CON%  @Migration\MakePunktInfoIDENT.sql > logs\MakePunktInfoATTR.txt
+echo Migration\MakePunktInfoATTR.sql
+echo exit | sqlplus -S %CON%  @Migration\MakePunktInfoATTR.sql > logs\MakePunktInfoATTR.txt
 
 echo Migration\MakePunktInfoIDENT.sql
 echo exit | sqlplus -S %CON% @Migration\MakePunktInfoIDENT.sql > logs\MakePunktInfoIDENT.txt
