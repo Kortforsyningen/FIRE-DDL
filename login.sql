@@ -5,6 +5,5 @@ set sqlblanklines on
 set sqlterminator ';'
 show sqlterminator
 show sqlblanklines
-alter session set current_schema = FIRE_ADM;
 prompt ready login.sql
 set echo on
