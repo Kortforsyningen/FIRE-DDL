@@ -41,7 +41,7 @@ PUNKTER = {
     'DK:GI44': ['G.M.902'],
     'DK:GM91': ['G.M.902'],
     'DK:KN44': ['G.M.902'],
-    'EPSG:5317': ['GL  UAK1', 'GL  GOH1', 'GL  JAV1', 'GL  JUV1'], # GR96
+    'EPSG:4909': ['GL  UAK1', 'GL  GOH1', 'GL  JAV1', 'GL  JUV1'], # GR96
     'EPSG:4747': ['GL  UAK1', 'GL  GOH1', 'GL  JAV1', 'GL  JUV1'], # GR96
     'EPSG:5317': ['FO  K-87-09037'] # FVR2009
 }
