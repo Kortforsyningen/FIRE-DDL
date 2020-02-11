@@ -77,5 +77,6 @@ echo exit | sqlplus -S %CON% @Migration\MakeBeregning.sql > logs\MakeBeregning.t
 REM ========================== Post migration ================================
 python post-migration\dvr90net\indset_dvr90net.py
 python post-migration\indset_fundamentalpunkter.py
+python post-migration\GR96_UTM_coordinates.py
 
 grep ERROR logs/*.txt

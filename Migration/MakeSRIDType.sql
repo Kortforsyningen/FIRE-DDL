@@ -87,6 +87,8 @@ INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, Z) VALUES (FLOOR(dbms_random.va
     'Kotesystem: Grønlands Vertikal Reference 2000', 'Kote [m]');
 INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, Z) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:8267',
     'Kotesystem: Grønlands Vertikal Reference 2016', 'Kote [m]');
+INSERT INTO SRIDTYPE (SRIDID, SRID, BESKRIVELSE, X, Y) VALUES (FLOOR(dbms_random.value(1,1E9)), 'EPSG:3184',
+    'Projicerede koordinater 2D: UTM Zone 24, GR96','Easting [m]', 'Northing [m]');
 
 
 /* Tidsrækker */
