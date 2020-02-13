@@ -2,3 +2,9 @@ pre-migration/identer/db_connect.py
 logs/*
 db_setup.bat
 __pycache__
+pre-migration/identer/identer_test.txt
+pre-migration/identer/identer_test2.txt
+pre-migration/identer/identer.json
+pre-migration/identer/idents_clean.txt
+pre-migration/identer/refnr.txt
+.vscode/settings.json
