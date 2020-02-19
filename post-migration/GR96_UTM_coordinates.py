@@ -17,7 +17,7 @@ import datetime
 
 from pyproj import Transformer, transform
 import sqlalchemy
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import aliased
 from sqlalchemy.orm.exc import NoResultFound
 import click
@@ -36,6 +36,8 @@ from fireapi.model import (
     SagseventInfo,
     Koordinat,
     Srid,
+    Point,
+    GeometriObjekt,
 )
 
 
@@ -105,6 +107,61 @@ def convert_coordinates(epsg_code):
 
     return nye_koordinater
 
+def convert_heights():
+    """Skab UTM koordinater for grønlandske højdefikspunkter.
+
+    Der tilføjes kun UTM koordinater hvis ikke fikspunktet i forvejen har tilknyttet
+    en UTM koordinater. Da der for mange højdefikspunkter ikke findes en plankoordinat
+    benyttes dens lokationskoordinat.
+    """
+    UTM24 = firedb.hent_srid("EPSG:3184")
+    region_gl = firedb.hent_punktinformationtype("REGION:GL")
+
+    punkt_kandidater = (
+        firedb.session.query(Punkt)
+        .join(PunktInformation)
+        .filter(
+            PunktInformation.infotypeid == region_gl.infotypeid
+        ).all()
+    )
+
+    oracle_killer = Transformer.from_crs("EPSG:4326", "EPSG:3184")
+    nye_koordinater = []
+    with click.progressbar(
+        punkt_kandidater,
+        label=f"Transforming WGS84 coordinates",
+        length=len(punkt_kandidater),
+    ) as punkter:
+        for i, punkt in enumerate(punkter):
+            needs_transformation = True
+            for koordinat in punkt.koordinater:
+                if koordinat.sridid == UTM24.sridid:
+                    needs_transformation = False # punktet har en UTM koordinat, videre
+                    break
+            if not needs_transformation:
+                continue
+
+            try:
+                (lon, lat) = punkt.geometriobjekter[0].geometri._geom['coordinates']
+            except IndexError:
+                continue # Der findes ikke en lokationskoordinat, videre
+        
+            utm = oracle_killer.transform(lat, lon)
+            utm_koordinat = Koordinat(
+                srid=UTM24,
+                sx=999,
+                sy=999,
+                t=datetime.datetime.now(),  # Vi indsætter beregningstidspunktet
+                transformeret="true",
+                x=utm[0],
+                y=utm[1],
+                punkt=punkt,
+                artskode=Artskode.TRANSFORMERET,
+            )
+            nye_koordinater.append(utm_koordinat)
+
+    return nye_koordinater
+
 
 def main():
     sagsbeskrivelse = """Indsættelse af GR96/UTM24 koordinater.
@@ -140,9 +197,12 @@ transformerede koordinater.
 
     utm24_2d = convert_coordinates("EPSG:4747")
     utm24_3d = convert_coordinates("EPSG:4909")
+    utm24_the_rest = convert_heights()
+
 
     nye_koordinater = utm24_2d
     nye_koordinater.extend(utm24_3d)
+    nye_koordinater.extend(utm24_the_rest)
 
     sagseventinfo = SagseventInfo(beskrivelse=f"Indsættelse af GR96/UTM24 koordinater")
     sagsevent = Sagsevent(
