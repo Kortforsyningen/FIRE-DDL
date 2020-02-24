@@ -94,12 +94,12 @@ def convert_coordinates(epsg_code):
                 srid=to_srid,
                 sx=koordinat.sx,
                 sy=koordinat.sy,
-                sz=koordinat.sx,
-                t=datetime.datetime.now(),  # Vi indsætter beregningstidspunktet
+                # vi beholder samme tidspunkt for ikke at få det til at se
+                # ud som om koordinaten er nyere, og dermed bedre
+                t=koordinat.t,
                 transformeret="true",
                 x=utm[0],
                 y=utm[1],
-                z=koordinat.z,
                 punkt=koordinat.punkt,
                 artskode=Artskode.TRANSFORMERET,
             )
@@ -151,7 +151,9 @@ def convert_heights():
                 srid=UTM24,
                 sx=999,
                 sy=999,
-                t=datetime.datetime.now(),  # Vi indsætter beregningstidspunktet
+                # Vi bruger punktets oprettelsesdato for ikke at få koordinaten
+                # til at se nyere og bedre ud end den er
+                t=punkt.registreringfra,
                 transformeret="true",
                 x=utm[0],
                 y=utm[1],
