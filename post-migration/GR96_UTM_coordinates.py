@@ -22,10 +22,10 @@ from sqlalchemy.orm import aliased
 from sqlalchemy.orm.exc import NoResultFound
 import click
 
-import firecli
-from firecli import firedb
-import fireapi
-from fireapi.model import (
+import fire.cli
+from fire.cli import firedb
+import fire.api
+from fire.api.model import (
     Artskode,
     Punkt,
     PunktInformation,
@@ -132,7 +132,7 @@ def convert_heights():
         label=f"Transforming WGS84 coordinates",
         length=len(punkt_kandidater),
     ) as punkter:
-        for i, punkt in enumerate(punkter):
+        for punkt in punkter:
             needs_transformation = True
             for koordinat in punkt.koordinater:
                 if koordinat.sridid == UTM24.sridid:
@@ -164,6 +164,20 @@ def convert_heights():
 
     return nye_koordinater
 
+def add_coordinates(sag, koordinater, beskrivelse):
+    """
+    Tilføj koordinater og dertilhørende sagsevent til sag
+    """
+    sagseventinfo = SagseventInfo(beskrivelse=f"Indsættelse af GR96/UTM24 koordinater")
+    sagsevent = Sagsevent(
+        id=str(uuid.uuid4()),
+        sag=sag,
+        eventtype=fire.api.model.EventType.KOORDINAT_BEREGNET,
+        sagseventinfos=[sagseventinfo],
+        koordinater=koordinater,
+    )
+    print("add_coordinates: " + beskrivelse)
+    firedb.indset_sagsevent(sagsevent)
 
 def main():
     sagsbeskrivelse = """Indsættelse af GR96/UTM24 koordinater.
@@ -175,7 +189,7 @@ er pålidelig uden for den givne UTM zone. Dette er et problem
 i forbindelse med udstillingsmodellen, hvor modellen kræver
 at der stilles UTM northing og easting koordinater til rådighed.
 Da Oracle ikke kan beregne disse koordinater troværdigt gør vi
-det i stedet her med PROJ som motor. PROJ 6.3.0 benyttes.
+det i stedet her med PROJ som motor. PROJ 6.3.1 benyttes.
 
 Tidsstemplet på de transformerede koordinater sættes til
 det aktuelle tidspunkt ved indsættelse, og den oprindelige
@@ -198,23 +212,11 @@ transformerede koordinater.
         sag = firedb.hent_sag(sagid)
 
     utm24_2d = convert_coordinates("EPSG:4747")
+    add_coordinates(sag, utm24_2d, "Indsættelse af koordinater transformeret fra GR96 2D")
     utm24_3d = convert_coordinates("EPSG:4909")
+    add_coordinates(sag, utm24_3d, "Indsættelse af koordinater transformeret fra GR96 3D")
     utm24_the_rest = convert_heights()
-
-
-    nye_koordinater = utm24_2d
-    nye_koordinater.extend(utm24_3d)
-    nye_koordinater.extend(utm24_the_rest)
-
-    sagseventinfo = SagseventInfo(beskrivelse=f"Indsættelse af GR96/UTM24 koordinater")
-    sagsevent = Sagsevent(
-        id=str(uuid.uuid4()),
-        sag=sag,
-        eventtype=fireapi.model.EventType.KOORDINAT_BEREGNET,
-        sagseventinfos=[sagseventinfo],
-        koordinater=nye_koordinater,
-    )
-    firedb.indset_sagsevent(sagsevent)
+    add_coordinates(sag, utm24_the_rest, "Indsættelse af koordinater transformeret fra WGS84 (lokationskoordinater)")
 
 
 if __name__ == "__main__":
