@@ -3,20 +3,24 @@ REM Setup
 set PATH=%PATH%;C:\oracle\instantclient_19_3
 set ORACLE_HOME=C:\oracle
 REM Path to login.sql
-set SQLPATH=C:\dev\fire\fire-ddl
+set SQLPATH=C:\dev\fire-ddl
 set NLS_LANG=.AL32UTF8
 
 CALL db_setup.bat
 set CON=%DB_USER%/%DB_PASS%@%DB_HOST%:%DB_PORT%/%DB_SERV%
 REM ========================== Pre migration ================================
 REM
+
+REM UUID'er 
+python pre-migration\create_uuids.py
+
 REM IDENTER
-REM python pre-migration\identer\refnr2ident.py
-REM scp pre-migration\identer\refnr.txt regn@reffs1t:/home/regn/FIRE/refnr.txt
-REM ssh regn@reffs1t './FIRE/extract_idents.sh'
-REM scp regn@reffs1t:/home/regn/FIRE/idents_clean.txt pre-migration\identer\idents_clean.txt
-REM python pre-migration\identer\parse_idents.py
-REM python pre-migration\identer\populate_refgeo_ident.py
+python pre-migration\identer\refnr2ident.py
+scp pre-migration\identer\refnr.txt regn@reffs1t:/home/regn/FIRE/refnr.txt
+ssh regn@reffs1t './FIRE/extract_idents.sh'
+scp regn@reffs1t:/home/regn/FIRE/idents_clean.txt pre-migration\identer\idents_clean.txt
+python pre-migration\identer\parse_idents.py
+python pre-migration\identer\populate_refgeo_ident.py
 
 
 REM ============================ Migration ==================================
