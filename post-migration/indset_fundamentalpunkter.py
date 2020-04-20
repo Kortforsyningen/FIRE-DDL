@@ -13,10 +13,10 @@ import sqlalchemy
 from sqlalchemy.orm import aliased
 from sqlalchemy.orm.exc import NoResultFound
 
-import firecli
-from firecli import firedb
-import fireapi
-from fireapi.model import (
+import fire.cli
+from fire.cli import firedb
+import fire.api
+from fire.api.model import (
     Punkt,
     PunktInformation,
     PunktInformationType,
@@ -84,7 +84,7 @@ def main():
         firedb.indset_punktinformationtype(
             PunktInformationType(
                 name=ATTRIBUT,
-                anvendelse=fireapi.model.PunktInformationTypeAnvendelse.TEKST,
+                anvendelse=fire.api.model.PunktInformationTypeAnvendelse.TEKST,
                 beskrivelse="Fundamentalpunkt i referencesystemet angivet i TEKST",
             )
         )
@@ -115,7 +115,7 @@ def main():
     sagsevent = Sagsevent(
         id=str(uuid.uuid4()),
         sag=sag,
-        eventtype=fireapi.model.EventType.PUNKTINFO_TILFOEJET,
+        eventtype=fire.api.model.EventType.PUNKTINFO_TILFOEJET,
         sagseventinfos=[sagseventinfo],
         punktinformationer=punktinformationer,
     )
