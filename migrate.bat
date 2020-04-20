@@ -78,6 +78,12 @@ echo exit | sqlplus -S %CON% @Migration\MakeObservation.sql > logs\MakeObservati
 echo Migration\MakeBeregning.sql
 echo exit | sqlplus -S %CON% @Migration\MakeBeregning.sql > logs\MakeBeregning.txt
 
+echo Create_Index.sql
+echo exit | sqlplus -S %CON% @Create_Index.sql > logs\Create_Index.txt
+
+echo Grants.sql
+echo exit | sqlplus -S %CON% @Grants.sql > logs\Grants.txt
+
 REM ========================== Post migration ================================
 python post-migration\dvr90net\indset_dvr90net.py
 python post-migration\indset_fundamentalpunkter.py
