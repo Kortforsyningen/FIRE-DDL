@@ -20,7 +20,7 @@ INSERT INTO SAGSEVENTINFO (REGISTRERINGFRA, BESKRIVELSE, SAGSEVENTID)
 VALUES (to_date('2018-10-02','YYYY-MM-DD'), 'NULL-punkt oprettet. Første punkt i Punkt-tabellen. Udelukkende til brug for at at NULL-observatioen kan henvise til det', 'ce5d92cb-e890-411b-a836-0b3f19564500');
 
 commit;
--- Første række i observationstabellen. 
+-- Første række i observationstabellen.
 -- Udelukkende til brug for at beregninger uden egentlige observationer kan overholde modellen.
 
 INSERT INTO SAGSEVENT (ID, REGISTRERINGFRA, EVENTTYPEID, SAGID)
@@ -28,6 +28,10 @@ VALUES ('a36bc4c3-cb99-4d69-b891-52f976d69451', SYSDATE, 3, '4f8f29c8-c38f-4c69-
 
 INSERT INTO OBSERVATION (REGISTRERINGFRA, SAGSEVENTFRAID, OBSERVATIONSTIDSPUNKT, ANTAL, OBSERVATIONSTYPEID, OPSTILLINGSPUNKTID)
 VALUES (SYSDATE, 'a36bc4c3-cb99-4d69-b891-52f976d69451', SYSDATE , 0, 8, 'cb29ee7b-d5ab-4903-aecd-3860a80caf0b');
+
+INSERT INTO SAGSEVENTINFO (REGISTRERINGFRA, BESKRIVELSE, SAGSEVENTID)
+VALUES (sysdate, 'NULL-observation indsat.', 'a36bc4c3-cb99-4d69-b891-52f976d69451');
+
 
 commit;
 
