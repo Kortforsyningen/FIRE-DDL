@@ -1,23 +1,23 @@
 
 -- Oprettelse af første sag samt tilhørende sagsrelaterede informationer
 INSERT INTO SAG (ID, REGISTRERINGFRA)
-VALUES ('4f8f29c8-c38f-4c69-ae28-c7737178de1f', to_date('2018-10-01','YYYY-MM-DD'));
+VALUES ('4f8f29c8-c38f-4c69-ae28-c7737178de1f', SYSDATE);
 
 INSERT INTO SAGSINFO (AKTIV, SAGID, REGISTRERINGFRA, REGISTRERINGTIL, JOURNALNUMMER, BEHANDLER, BESKRIVELSE)
-VALUES ('true','4f8f29c8-c38f-4c69-ae28-c7737178de1f', to_date('2018-10-01','YYYY-MM-DD'), NULL,  NULL, 'Thomas Knudsen', 'Sagen er oprettet i forbindelse med migrering af data fra REFGEO til FIRE');
+VALUES ('true','4f8f29c8-c38f-4c69-ae28-c7737178de1f', SYSDATE, NULL,  NULL, 'Thomas Knudsen', 'Sagen er oprettet i forbindelse med migrering af data fra REFGEO til FIRE');
 
 commit;
 -- NullObservationspunkt:
 -- Første punkt i Punkt-tabellen. Udelukkende til brug for at at NULL-observatioen kan henvise til det.
 
 INSERT INTO SAGSEVENT (ID, REGISTRERINGFRA, EVENTTYPEID, SAGID)
-VALUES ('ce5d92cb-e890-411b-a836-0b3f19564500', to_date('2018-10-02','YYYY-MM-DD'), 7, '4f8f29c8-c38f-4c69-ae28-c7737178de1f');
+VALUES ('ce5d92cb-e890-411b-a836-0b3f19564500', SYSDATE, 7, '4f8f29c8-c38f-4c69-ae28-c7737178de1f');
 
 INSERT INTO PUNKT (ID, REGISTRERINGFRA, REGISTRERINGTIL, SAGSEVENTFRAID)
-VALUES ('cb29ee7b-d5ab-4903-aecd-3860a80caf0b', to_date('2018-10-02','YYYY-MM-DD'), NULL, 'ce5d92cb-e890-411b-a836-0b3f19564500');
+VALUES ('cb29ee7b-d5ab-4903-aecd-3860a80caf0b', SYSDATE, NULL, 'ce5d92cb-e890-411b-a836-0b3f19564500');
 
 INSERT INTO SAGSEVENTINFO (REGISTRERINGFRA, BESKRIVELSE, SAGSEVENTID)
-VALUES (to_date('2018-10-02','YYYY-MM-DD'), 'NULL-punkt oprettet. Første punkt i Punkt-tabellen. Udelukkende til brug for at at NULL-observatioen kan henvise til det', 'ce5d92cb-e890-411b-a836-0b3f19564500');
+VALUES (SYSDATE, 'NULL-punkt oprettet. Første punkt i Punkt-tabellen. Udelukkende til brug for at at NULL-observatioen kan henvise til det', 'ce5d92cb-e890-411b-a836-0b3f19564500');
 
 commit;
 -- Første række i observationstabellen.
