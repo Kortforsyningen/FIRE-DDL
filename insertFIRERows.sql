@@ -4,7 +4,7 @@ INSERT INTO SAG (ID, REGISTRERINGFRA)
 VALUES ('4f8f29c8-c38f-4c69-ae28-c7737178de1f', to_date('2018-10-01','YYYY-MM-DD'));
 
 INSERT INTO SAGSINFO (AKTIV, SAGID, REGISTRERINGFRA, REGISTRERINGTIL, JOURNALNUMMER, BEHANDLER, BESKRIVELSE)
-VALUES ('true','4f8f29c8-c38f-4c69-ae28-c7737178de1f', to_date('2018-10-01','YYYY-MM-DD'), NULL,  NULL, 'Thomas Knudsen', 'Sagen er oprette i forbindelse med migrering af data fra REFGEO til FIRE');
+VALUES ('true','4f8f29c8-c38f-4c69-ae28-c7737178de1f', to_date('2018-10-01','YYYY-MM-DD'), NULL,  NULL, 'Thomas Knudsen', 'Sagen er oprettet i forbindelse med migrering af data fra REFGEO til FIRE');
 
 commit;
 -- NullObservationspunkt:
