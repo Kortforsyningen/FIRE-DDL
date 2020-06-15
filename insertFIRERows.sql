@@ -63,4 +63,9 @@ VALUES (SYSDATE, 'Denne event har migreret punkter og punkternes visningsgeometr
 
 commit;
 
+INSERT INTO KONFIGURATION (DIR_SKITSER, DIR_MATERIALE)
+VALUES ('F:\GDB\FIRE\skitser', 'F:\GDB\FIRE\materiale');
+
+COMMIT;
+
 -- End
