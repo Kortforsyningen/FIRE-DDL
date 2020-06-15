@@ -86,4 +86,5 @@ python post-migration\dvr90net\indset_dvr90net.py
 python post-migration\indset_fundamentalpunkter.py
 python post-migration\GR96_UTM_coordinates.py
 
+echo ========================== ERRORS ================================
 grep ERROR logs/*.txt
