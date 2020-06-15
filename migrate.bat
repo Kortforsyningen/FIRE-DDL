@@ -11,9 +11,6 @@ set CON=%DB_USER%/%DB_PASS%@%DB_HOST%:%DB_PORT%/%DB_SERV%
 REM ========================== Pre migration ================================
 REM
 
-REM UUID'er 
-python pre-migration\create_uuids.py
-
 REM IDENTER
 python pre-migration\identer\refnr2ident.py
 scp pre-migration\identer\refnr.txt regn@reffs1t:/home/regn/FIRE/refnr.txt

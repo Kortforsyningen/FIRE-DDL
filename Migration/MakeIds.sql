@@ -1,7 +1,11 @@
 ﻿/* -------------------------------------------------------------------------- */
-/* Make ID conversion tables 
+/* Make ID conversion tables
 /* File: MakeIds.sql
 /* -------------------------------------------------------------------------- */
+
+CREATE OR REPLACE FUNCTION random_uuid RETURN varchar2 AS
+language java
+name 'java.util.UUID.randomUUID() return String';
 
 -- PUNKT.ID
 CREATE TABLE CONV_PUNKT (
@@ -10,11 +14,10 @@ CREATE TABLE CONV_PUNKT (
     CONSTRAINT CONV_PUNKT_PK PRIMARY KEY (REFNR, ID)
 );
 INSERT INTO CONV_PUNKT (REFNR, ID)
-SELECT 
+SELECT
     r.refnr refnr,
-    u.uuid id
+    random_uuid() id
 FROM HVD_REF@refgeo r
-JOIN TEMP_UUIDS u ON r.refnr=u.id
 ORDER BY r.refnr;
 
 CREATE INDEX refnr ON CONV_PUNKT(REFNR);
