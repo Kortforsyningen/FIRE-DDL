@@ -3,21 +3,6 @@
 /* File: MakeSRIDType.sql
 /* -------------------------------------------------------------------------- */
 
-DELETE FROM SRIDNAMESPACE;
-
-INSERT INTO SRIDNAMESPACE (NAMESPACE, BESKRIVELSE) VALUES ('DK',
-    'SDFE register over danske systemer');
-INSERT INTO SRIDNAMESPACE (NAMESPACE, BESKRIVELSE) VALUES ('EPSG',
-    'IOGP Geodetic Parameter Registry');
-INSERT INTO SRIDNAMESPACE (NAMESPACE, BESKRIVELSE) VALUES ('FO',
-    'SDFE register over færøske systemer');
-INSERT INTO SRIDNAMESPACE (NAMESPACE, BESKRIVELSE) VALUES ('GL',
-    'SDFE register over grønlandske systemer');
-INSERT INTO SRIDNAMESPACE (NAMESPACE, BESKRIVELSE) VALUES ('NKG',
-    'Nordisk Kommission for Geodæsi register over nordisk/baltiske systemer');
-INSERT INTO SRIDNAMESPACE (NAMESPACE, BESKRIVELSE) VALUES ('TS',
-    'SDFE register over tidsrækker');
-
 DELETE FROM SRIDTYPE;
 
 /* (Pseudo)globale systemer */
@@ -111,6 +96,6 @@ LEFT JOIN refadm.REFNR_IDENT@refgeo landsnr ON ts.REFNR = landsnr.REFNR AND land
 ;
 
 -- Set SRIDID to equal OBJECTID
-UPDATE SRIDTYPE SET SRIDID = OBJECTID;
+UPDATE SRIDTYPE SET SRIDID = OBJEKTID;
 
 COMMIT;

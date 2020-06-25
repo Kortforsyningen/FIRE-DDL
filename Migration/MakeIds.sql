@@ -1,5 +1,5 @@
 ﻿/* -------------------------------------------------------------------------- */
-/* Make ID conversion tables 
+/* Make ID conversion tables
 /* File: MakeIds.sql
 /* -------------------------------------------------------------------------- */
 
@@ -9,16 +9,14 @@ CREATE TABLE CONV_PUNKT (
     ID VARCHAR2(100) NOT NULL,
     CONSTRAINT CONV_PUNKT_PK PRIMARY KEY (REFNR, ID)
 );
+
 INSERT INTO CONV_PUNKT (REFNR, ID)
-SELECT 
+SELECT
     r.refnr refnr,
-    u.uuid id
+    random_uuid() id
 FROM HVD_REF@refgeo r
-JOIN TEMP_UUIDS u ON r.refnr=u.id
 ORDER BY r.refnr;
 
 CREATE INDEX refnr ON CONV_PUNKT(REFNR);
-
-DROP TABLE TEMP_UUIDS;
 
 COMMIT;

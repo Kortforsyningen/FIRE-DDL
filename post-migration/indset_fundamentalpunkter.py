@@ -54,29 +54,6 @@ Punkterne markeres med {ATTRIBUT}, hvor teksten sættes til koden for det refere
 Indsat i forbindelse med migrering fra REFGEO til FIRE.
 """
 
-def get_punkt(ident: str) -> str:
-    """
-    IDENT kan være enhver form for navn et punkt er kendt som, blandt andet
-    GNSS stationsnummer, G.I.-nummer, refnr, landsnummer osv.
-
-    Søgningen er versalfølsom.
-    """
-    pi = aliased(PunktInformation)
-    pit = aliased(PunktInformationType)
-
-    punktinfo = (
-        firedb.session.query(pi)
-        .filter(pit.name.startswith("IDENT:"), pi.tekst == ident)
-        .all()
-    )
-    n = len(punktinfo)
-    if n == 0:
-        raise NoResultFound
-
-    punkt = punktinfo[0].punkt
-
-    return punkt
-
 
 def main():
     infotype = firedb.hent_punktinformationtype(ATTRIBUT)
@@ -100,18 +77,18 @@ def main():
     sag =  firedb.hent_sag(sagid)
 
     punktinformationer =  []
-    infotype = firedb.hent_punktinformationtype(ATTRIBUT)
+
     for srid, identer in PUNKTER.items():
         for ident in identer:
             try:
-                punkt = get_punkt(ident)
+                punkt = firedb.hent_punkt(ident)
             except NoResultFound:
                 print(f'fejl: {ident}')
                 continue
             pi = PunktInformation(infotype=infotype, punkt=punkt, tekst=srid)
             punktinformationer.append(pi)
 
-    sagseventinfo = SagseventInfo(beskrivelse=f"Indsættelse af {ATTRIBUT} attibutter")
+    sagseventinfo = SagseventInfo(beskrivelse=f"Indsættelse af {ATTRIBUT} attributter")
     sagsevent = Sagsevent(
         id=str(uuid.uuid4()),
         sag=sag,
