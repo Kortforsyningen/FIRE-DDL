@@ -1,3 +1,4 @@
+import sys
 import json
 import itertools
 import re
@@ -52,68 +53,116 @@ def parse_ident_type(ident: str, region: str) -> str:
     return "diverse"
 
 
-# get a list of refnr
-with open(REFNR_FILE) as f:
-    refnumre = [int(l) for l in f.readlines()]
+def parse_idents():
 
-identer = []
+    # get a list of refnr
+    with open(REFNR_FILE) as f:
+        refnumre = [int(l) for l in f.readlines()]
 
-with open(IDENT_FILE, "r") as ident_fil:
-    with click.progressbar(
-        ident_fil, label="Parsing idents", length=len(refnumre)
-    ) as identer_progress:
-        for i, (line, refnr) in enumerate(zip(identer_progress, refnumre)):
+    identer = []
 
-            # Split before region when only one space between idents
-            line = re.sub("(\w)(\s{1,})" + f"({REGIONS_REGEX})", r"\1~\3", line)
-            #print(line)
+    with open(IDENT_FILE, "r") as ident_fil:
+        with click.progressbar(
+            ident_fil, label="Parsing idents", length=len(refnumre)
+        ) as identer_progress:
+            for i, (line, refnr) in enumerate(zip(identer_progress, refnumre)):
 
-            # Reduce to only one space between region and ident
-            line = re.sub(f"({REGIONS_REGEX}) (\s*)(\w)", r"\1 \3", line)
-            #print(line)
+                # Split before region when only one space between idents
+                line = re.sub("(\w)(\s{1,})" + f"({REGIONS_REGEX})", r"\1~\3", line)
+                #print(line)
 
-            # Split on two or more spaces
-            line = re.sub("(\w)(\s{2,})(\w)", r"\1~\3", line)
-            #print(line)
+                # Reduce to only one space between region and ident
+                line = re.sub(f"({REGIONS_REGEX}) (\s*)(\w)", r"\1 \3", line)
+                #print(line)
 
-            # list(dict.fromkeys()) removes duplicate entries and preserves order
-            idents = list(dict.fromkeys(line.strip().split("~")))
-            #print(idents)
+                # Split on two or more spaces
+                line = re.sub("(\w)(\s{2,})(\w)", r"\1~\3", line)
+                #print(line)
 
-            temp_idents = []
+                # list(dict.fromkeys()) removes duplicate entries and preserves order
+                idents = list(dict.fromkeys(line.strip().split("~")))
+                #print(idents)
 
-            for text in idents:
-                if has_region(text):
-                    code = text[2:].strip()
-                    region = text[0:3].strip()
-                else:
-                    code = text.strip()
-                    region = ""
+                temp_idents = []
 
-                # Strip all singular spaces
-                # code = re.sub("(\S)(\s)(\S)", r'\1\3', code).strip()
-                code = re.sub("(\s)(\S)", r"\2", code).strip()
+                for text in idents:
+                    if has_region(text):
+                        code = text[2:].strip()
+                        region = text[0:3].strip()
+                    else:
+                        code = text.strip()
+                        region = ""
 
-                # Add country code if present
-                ident_type = parse_ident_type(code, region)
+                    # Strip all singular spaces
+                    # code = re.sub("(\S)(\s)(\S)", r'\1\3', code).strip()
+                    code = re.sub("(\s)(\S)", r"\2", code).strip()
 
-                # A few GNSS ident duplicates exists, i.e. "DK  NORD" and
-                # "FO  NORD". We don't want to include the region for Danish
-                # GNSS idents
-                if ident_type == "GNSS" and region == "DK":
-                    region = ""
-                ident = (region + "  " + code).strip()
+                    # Add country code if present
+                    ident_type = parse_ident_type(code, region)
 
-                if ident == "":
-                    continue
+                    # A few GNSS ident duplicates exists, i.e. "DK  NORD" and
+                    # "FO  NORD". We don't want to include the region for Danish
+                    # GNSS idents
+                    if ident_type == "GNSS" and region == "DK":
+                        region = ""
+                    ident = (region + "  " + code).strip()
 
-                idt = {"1": refnr, "2": ident_type, "3": ident}
-                if idt in temp_idents:
-                    continue
-                temp_idents.append(idt)
+                    if ident == "":
+                        continue
 
-            identer.extend(temp_idents)
+                    idt = {"1": refnr, "2": ident_type, "3": ident}
+                    if idt in temp_idents:
+                        continue
+                    temp_idents.append(idt)
+
+                identer.extend(temp_idents)
 
 
-with open(JSON_FILE, "w") as out:
-    json.dump(identer, out, indent=4)
+    with open(JSON_FILE, "w") as out:
+        json.dump(identer, out, indent=4)
+
+def test():
+    test_data = {
+        ("EE", "872 S"): "diverse",
+        ("DK", "872.461"): "station",
+        ("GL", "1 049"): "diverse",
+        ("DK", "1 049.461"): "diverse",
+        ("SJ", "50 280 068"): "diverse",
+        ("DK", "TERN"): "GNSS",
+        ("DK", "K -01-06663"): "landsnr",
+        ("DK", "K.K.663"): "diverse",
+        ("DK", "K -01-06742"): "landsnr",
+        ("DK", "1-00-06266"): "landsnr",
+        ("DK", "F.K.266"): "diverse",
+        ("DK", "K -01-09003"): "landsnr",
+        ("DK", "G.M.1405/1406.1"): "GI",
+        ("DK", "G.M.1404"): "GI",
+        ("DK", "9904/14 496"): "ekstern",
+        ("DK", "8025/827-6015"): "ekstern",
+        ("DK", "3 985 K 1"): "diverse",
+        ("DK", "K -18- A"): "landsnr",
+        ("DK", "G.P.245"): "diverse",
+        ("DK", "K -41- A.21"): "landsnr",
+        ("DK", "K -41- V.5"): "landsnr",
+        ("GL", "F1001"): "diverse",
+        ("DK", "68-09-09011.1981"): "landsnr",
+        ("DK", "69-01- V.4"): "landsnr",
+        ("DK", "4078/13 611 H"): "ekstern",
+        ("DK", "G.M.902"): "GI",
+        ("DK", "G.I.1452"): "GI",
+        ("DK", "G.M.1166.1"): "GI",
+        ("DK", "G.M.110"): "GI",
+
+    }
+
+    for (region, ident), identtype in test_data.items():
+        determined_type = parse_ident_type(ident, region)
+        assert identtype == determined_type, f"{identtype} != {determined_type} ({region}, {ident})"
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    if sys.argv[1] == 'test':
+        test()
+    else:
+        parse_idents()
