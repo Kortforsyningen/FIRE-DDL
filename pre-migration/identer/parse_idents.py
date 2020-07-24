@@ -163,7 +163,7 @@ def test():
     print("All tests passed!")
 
 if __name__ == "__main__":
-    if sys.argv[1] == 'test':
+    if len(sys.argv) > 1 and sys.argv[1] == 'test':
         test()
     else:
         parse_idents()
