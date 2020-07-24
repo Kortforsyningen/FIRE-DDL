@@ -2,6 +2,7 @@
 REM Setup
 set PATH=%PATH%;C:\oracle\instantclient_19_3
 set ORACLE_HOME=C:\oracle
+set HOME=C:\Users\b012349
 REM Path to login.sql
 set SQLPATH=C:\dev\fire-ddl
 set NLS_LANG=.AL32UTF8
