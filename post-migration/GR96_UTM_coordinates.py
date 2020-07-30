@@ -145,7 +145,7 @@ def convert_heights():
                 (lon, lat) = punkt.geometriobjekter[0].geometri._geom['coordinates']
             except IndexError:
                 continue # Der findes ikke en lokationskoordinat, videre
-        
+
             utm = oracle_killer.transform(lat, lon)
             utm_koordinat = Koordinat(
                 srid=UTM24,
@@ -168,11 +168,11 @@ def add_coordinates(sag, koordinater, beskrivelse):
     """
     Tilføj koordinater og dertilhørende sagsevent til sag
     """
-    sagseventinfo = SagseventInfo(beskrivelse=f"Indsættelse af GR96/UTM24 koordinater")
+    sagseventinfo = SagseventInfo(beskrivelse=beskrivelse)
     sagsevent = Sagsevent(
         id=str(uuid.uuid4()),
         sag=sag,
-        eventtype=fire.api.model.EventType.KOORDINAT_BEREGNET,
+        eventtype=fire.api.model.KOORDINAT_BEREGNET,
         sagseventinfos=[sagseventinfo],
         koordinater=koordinater,
     )
