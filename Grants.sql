@@ -7,6 +7,7 @@ grant select on observation to BRANDSLUKNING;
 
 grant select on sridtype to BRANDSLUKNING;
 grant select on sag to BRANDSLUKNING;
-
+grant select on sagsevent to BRANDSLUKNING;
+grant select on eventtype to BRANDSLUKNING;
 
 grant select on conv_punkt to BRANDSLUKNING;
