@@ -117,7 +117,7 @@ SELECT
   obs.S_LENGTH AS VALUE2,
   obs.SET_UP AS VALUE3,
   obs.ETA AS VALUE4,
-  sqrt(1e9*opst.MD) AS VALUE5,
+  round(sqrt(1e9*opst.MD), 2) AS VALUE5,
   sqrt(opst.MC)*1000 AS VALUE6,
   0 AS VALUE7,
   NULL AS VALUE8,
@@ -170,7 +170,7 @@ SELECT
   obs.S_LENGTH AS VALUE2,
   obs.SET_UP AS VALUE3,
   obs.ETA AS VALUE4,
-  sqrt(1e9*opst.MD) AS VALUE5,
+  round(sqrt(1e9*opst.MD), 2) AS VALUE5,
   sqrt(opst.MC)*1000 AS VALUE6,
   CASE
     WHEN opst.YEAR BETWEEN 1885 AND 1910 THEN 1
@@ -226,7 +226,7 @@ SELECT
   obs.OBS AS VALUE1,
   obs.S_LENGTH AS VALUE2,
   obs.SET_UP AS VALUE3,
-  sqrt(1e9*opst.MD) AS VALUE4,
+  round(sqrt(1e9*opst.MD), 2) AS VALUE4,
   sqrt(opst.MC)*1000 AS VALUE5,
   NULL AS VALUE6,
   NULL AS VALUE7,
