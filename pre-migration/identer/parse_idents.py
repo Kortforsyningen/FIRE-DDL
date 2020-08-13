@@ -40,7 +40,7 @@ def parse_ident_type(ident: str, region: str) -> str:
     if re.match("^81\s?\d{3}$", ident) and region not in REGIONS:
         return "jessen"
 
-    if re.match("^G\.[IM]\.\d{3,4}(/\d{4})?(.\d)?$", ident):
+    if re.match("^G\.[IM]\.\d{1,4}(/\d{2,4})?(.\d)?$", ident):
         return "GI"
 
     if re.match("^\d{4}/\w", ident):
@@ -153,6 +153,10 @@ def test():
         ("DK", "G.M.1166.1"): "GI",
         ("DK", "G.M.110"): "GI",
         ("DK", "24-01-00032.1"): "landsnr",
+        ("DK", "G.M.90"): "GI",
+        ("DK", "G.M.1"): "GI",
+        ("DK", "G.M.901/902"): "GI",
+        ("DK", "G.M.35/36.1"): "GI",
 
     }
 
