@@ -40,6 +40,12 @@ CREATE TABLE GEOMETRIOBJEKT (
    PUNKTID VARCHAR2(36) NOT NULL
 );
 
+CREATE TABLE HERREDSOGN (
+  OBJEKTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
+  KODE VARCHAR2(6) NOT NULL,
+  GEOMETRI SDO_GEOMETRY NOT NULL
+);
+
 CREATE TABLE KOORDINAT (
 
    OBJEKTID INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1 ORDER NOCACHE) PRIMARY KEY,
@@ -227,8 +233,10 @@ ALTER TABLE PUNKTINFOTYPE ADD CONSTRAINT CK_PUNKTINFOTY_ANVENDELSE138 CHECK (ANV
 ALTER TABLE SAGSINFO ADD CONSTRAINT CK_SAGSINFO_AKTIV060 CHECK (AKTIV IN ('true', 'false'));
 
 INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID) VALUES ('GEOMETRIOBJEKT', 'GEOMETRI', MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('Longitude', -180.0000, 180.0000, 0.005), MDSYS.SDO_DIM_ELEMENT('Latitude', -90.0000, 90.0000, 0.005)), 4326);
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID) VALUES ('HERREDSOGN', 'GEOMETRI', MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('Longitude', -180.0000, 180.0000, 0.005), MDSYS.SDO_DIM_ELEMENT('Latitude', -90.0000, 90.0000, 0.005)), 4326);
 
 CREATE INDEX IDX_GEOMETRIOBJEKT_GEOMETRI ON GEOMETRIOBJEKT (GEOMETRI) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+CREATE INDEX IDX_HERREDSOGN_GEOMETRI ON HERREDSOGN (GEOMETRI) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS ('layer_gtype=polygon');
 
 COMMENT ON TABLE BEREGNING IS 'Sammenknytter beregnede koordinater med de anvendte observationer.';
 COMMENT ON COLUMN BEREGNING.REGISTRERINGFRA IS 'Tidspunktet hvor registreringen er foretaget.';
@@ -477,6 +485,22 @@ CONSTRAINT PUNKTINFO_R01
 FOREIGN KEY (INFOTYPEID)
 REFERENCES PUNKTINFOTYPE (INFOTYPEID)
 ENABLE VALIDATE;
+
+-- Diverse index
+
+CREATE INDEX idx_punktinfo_pid ON punktinfo(punktid);
+CREATE INDEX idx_koordinat_pid ON koordinat(punktid);
+CREATE INDEX idx_geomobj_pid ON geometriobjekt(punktid);
+
+CREATE INDEX idx_observ_opid ON observation(opstillingspunktid);
+CREATE INDEX idx_observ_spid ON observation(sigtepunktid);
+
+CREATE INDEX idx_punktinfotyp_anv ON punktinfotype(anvendelse);
+CREATE INDEX idx_punktinfotyp_typ ON punktinfotype(infotype);
+
+
+--- --  Dette bør lægges på ifm indlæsning fra REFGEO
+create unique index geomobj_datopid on geometriobjekt(punktid, registreringfra);
 
 -- Constraint der tjekker at registreringtil er større end registreringfra
 ALTER TABLE BEREGNING ADD
@@ -964,19 +988,32 @@ begin
       RAISE_APPLICATION_ERROR(-20000,'No infotype found(!)');
   end;
 
-  if this_andv = 'FLAG' and (:new.TEKST is not null or :new.TAL is not null) THEN
-    RAISE_APPLICATION_ERROR(-20000,'Incorrect data (A)(!)');
-  end if;
+ if this_andv = 'FLAG' and (:new.TEKST is not null or :new.TAL is not null) THEN
+   RAISE_APPLICATION_ERROR(-20000,'Incorrect data (A)(!)');
+end if;
 
-  if this_andv = 'TEKST' and:new.TAL is not null THEN
-    RAISE_APPLICATION_ERROR(-20000,'Incorrect data (B)(!)');
-  end if;
+if this_andv = 'TEKST' and:new.TAL is not null THEN
+   RAISE_APPLICATION_ERROR(-20000,'Incorrect data (B)(!)');
+end if;
 
-  if this_andv = 'TAL' and:new.TEKST is not null THEN
-    RAISE_APPLICATION_ERROR(-20000,'Incorrect data (C)(!)');
-  end if;
+if this_andv = 'TAL' and:new.TEKST is not null THEN
+   RAISE_APPLICATION_ERROR(-20000,'Incorrect data (C)(!)');
+end if;
 
-end;
+-- afregistrer forrige version af punktinfo når nyt indsættes
+IF :new.registreringtil IS NULL THEN
+  SELECT count(*) INTO cnt
+  FROM punktinfo
+  WHERE punktid = :new.PUNKTID AND infotypeid = :new.infotypeid AND registreringtil IS NULL;
+
+  IF cnt = 1 THEN
+    UPDATE punktinfo
+    SET registreringtil = :new.registreringfra, sagseventtilid = :new.sagseventfraid
+    WHERE objektid = (SELECT objektid FROM punktinfo WHERE punktid = :new.punktid AND infotypeid = :new.infotypeid AND registreringtil IS NULL);
+  END IF;
+END IF;
+
+END;
 /
 
 
@@ -1017,9 +1054,70 @@ IF :new.REGISTRERINGFRA = :new.REGISTRERINGTIL THEN
   END IF;
 END IF;
 
+IF :new.REGISTRERINGTIL IS NULL THEN
+  select count(*) into cnt
+  from KOORDINAT
+  where punktid = :new.PUNKTID AND sridid = :new.sridid AND registreringtil IS NULL;
+
+  if cnt = 1 THEN
+    UPDATE koordinat
+    SET registreringtil = :new.registreringfra, sagseventtilid = :new.sagseventfraid
+    WHERE objektid = (SELECT objektid FROM koordinat WHERE punktid = :new.punktid AND sridid = :new.sridid AND registreringtil IS NULL);
+  END IF;
+END IF;
+
 end;
 /
 
+CREATE OR REPLACE TRIGGER BID#SAGSINFO
+BEFORE INSERT ON sagsinfo
+FOR EACH ROW
+DECLARE
+cnt number;
+BEGIN
+IF :new.REGISTRERINGTIL IS NULL THEN
+  SELECT count(*) INTO cnt
+  FROM SAGSINFO
+  WHERE sagsid = :new.sagsid AND registreringtil IS NULL;
+
+  IF cnt = 1 THEN
+    UPDATE sagsinfo
+    SET registreringtil = :new.registreringfra
+    WHERE objektid = (
+        SELECT objektid
+        FROM sagsinfo
+        WHERE sagsid = :new.sagsid AND registreringtil IS NULL
+    );
+  END IF;
+END IF;
+
+END;
+/
+
+CREATE OR REPLACE TRIGGER BID#SAGSEVENTINFO
+BEFORE INSERT ON sagseventinfo
+FOR EACH ROW
+DECLARE
+cnt number;
+BEGIN
+IF :new.REGISTRERINGTIL IS NULL THEN
+  SELECT count(*) INTO cnt
+  FROM sagseventinfo
+  WHERE sagseventid = :new.sagseventid AND registreringtil IS NULL;
+
+  IF cnt = 1 THEN
+    UPDATE sagseventinfo
+    SET registreringtil = :new.registreringfra
+    WHERE objektid = (
+        SELECT objektid
+        FROM sagseventinfo
+        WHERE sagseventid = :new.sagseventid AND registreringtil IS NULL
+    );
+  END IF;
+END IF;
+
+END;
+/
 
 -------------------------------------------------------------------------------
 -- Indhold til observationtype
