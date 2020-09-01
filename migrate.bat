@@ -14,8 +14,11 @@ REM
 
 REM IDENTER
 python pre-migration\identer\refnr2ident.py
+echo Copying refnr.txt to reffs1t
 scp pre-migration\identer\refnr.txt regn@reffs1t:/home/regn/FIRE/refnr.txt
+echo Running extract_ident.sh on reffs1t
 ssh regn@reffs1t './FIRE/extract_idents.sh'
+echo Copying idents_clean.txt from reffs1t to local machine
 scp regn@reffs1t:/home/regn/FIRE/idents_clean.txt pre-migration\identer\idents_clean.txt
 python pre-migration\identer\parse_idents.py
 python pre-migration\identer\populate_refgeo_ident.py
@@ -27,6 +30,9 @@ REM sqlplus -S %CON% @sqlplus.sql 2> errors.log
 
 echo Migration\ClearDB.sql
 echo exit | sqlplus -S %CON% @Migration\ClearDB.sql > logs\ClearDB.txt
+
+echo Migration\disable_triggers.sql
+echo exit | sqlplus -S %CON% @Migration\disable_triggers.sql > logs\disable_triggers.txt
 
 echo DDL.sql
 echo exit | sqlplus -S %CON% @DDL.sql > logs\DDL.txt
@@ -76,8 +82,8 @@ echo exit | sqlplus -S %CON% @Migration\MakeObservation.sql > logs\MakeObservati
 echo Migration\MakeBeregning.sql
 echo exit | sqlplus -S %CON% @Migration\MakeBeregning.sql > logs\MakeBeregning.txt
 
-echo Create_Index.sql
-echo exit | sqlplus -S %CON% @Create_Index.sql > logs\Create_Index.txt
+echo Migration\enable_triggers.sql
+echo exit | sqlplus -S %CON% @Migration\enable_triggers.sql > logs\enable_triggers.txt
 
 echo Grants.sql
 echo exit | sqlplus -S %CON% @Grants.sql > logs\Grants.txt
