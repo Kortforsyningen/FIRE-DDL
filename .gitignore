@@ -1,4 +1,5 @@
 pre-migration/identer/db_connect.py
+pre-migration/skitser/db_connect.py
 logs/*
 db_setup.bat
 __pycache__

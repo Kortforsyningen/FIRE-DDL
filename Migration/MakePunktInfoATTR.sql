@@ -209,8 +209,8 @@ SELECT
     conv.ID AS PUNKTID
 FROM PUNKT p
 INNER JOIN CONV_PUNKT conv ON p.ID = conv.ID
-INNER JOIN BSK@refgeo bf ON bf.REFNR = conv.REFNR
-LEFT JOIN BSK@refgeo bt ON bf.REFNR = bt.REFNR AND (bf.VERSNR+1) = bt.VERSNR
+INNER JOIN (SELECT refnr, 0 as versnr, bem, in_date FROM hvd_bem@refgeo UNION SELECT refnr, versnr, nvl(trim(bem), 'Punkt oprettet'), in_date FROM bsk@refgeo) bf ON bf.REFNR = conv.REFNR
+LEFT JOIN  (SELECT refnr, 0 as versnr, bem, in_date FROM hvd_bem@refgeo UNION SELECT refnr, versnr, nvl(trim(bem), 'Punkt oprettet'), in_date FROM bsk@refgeo) bt ON bf.REFNR = bt.REFNR AND (bf.VERSNR+1) = bt.VERSNR
 WHERE bf.IN_DATE < bt.IN_DATE OR bt.IN_DATE IS NULL
 ;
 
