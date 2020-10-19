@@ -67,6 +67,8 @@ def main():
         )
         infotype = firedb.hent_punktinformationtype(ATTRIBUT)
 
+    print(infotype)
+
     sagsinfo = Sagsinfo(
         aktiv="true",
         behandler="Kristian Evers",
