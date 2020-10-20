@@ -80,8 +80,10 @@ FROM (
 ) s;
 
 -- SKITSE
-INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','Relativ sti til billedfil. Kan enten være i PNG eller SVG format','SKITSE:sti');
-INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','MD5 sum af billedfilen','SKITSE:md5');
+INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','Relativ sti til billedfil i PNG format','SKITSE:png_sti');
+INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','MD5 sum af billedfil i PNG format','SKITSE:png_md5');
+INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','Relativ sti til master billedfil. Kan enten være i SVG, TIF eller CGM format','SKITSE:master_sti');
+INSERT INTO PUNKTINFOTYPE (INFOTYPEID, ANVENDELSE, BESKRIVELSE,INFOTYPE) VALUES (FLOOR(dbms_random.value(1,1E9)),'TEKST','MD5 sum af master billedfilen','SKITSE:master_md5');
 
 -- Set INFOTYPEID to equal OBJEKTID - just a hack to make it unique
 UPDATE PUNKTINFOTYPE SET INFOTYPEID = OBJEKTID;

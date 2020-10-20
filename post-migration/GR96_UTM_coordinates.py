@@ -34,6 +34,7 @@ from fire.api.model import (
     Sagsinfo,
     Sagsevent,
     SagseventInfo,
+    EventType,
     Koordinat,
     Srid,
     Point,
@@ -172,7 +173,7 @@ def add_coordinates(sag, koordinater, beskrivelse):
     sagsevent = Sagsevent(
         id=str(uuid.uuid4()),
         sag=sag,
-        eventtype=fire.api.model.KOORDINAT_BEREGNET,
+        eventtype=EventType.KOORDINAT_BEREGNET,
         sagseventinfos=[sagseventinfo],
         koordinater=koordinater,
     )

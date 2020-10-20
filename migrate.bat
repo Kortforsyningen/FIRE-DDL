@@ -12,6 +12,7 @@ set CON=%DB_USER%/%DB_PASS%@%DB_HOST%:%DB_PORT%/%DB_SERV%
 REM ========================== Pre migration ================================
 REM
 
+
 REM IDENTER
 python pre-migration\identer\refnr2ident.py
 echo Copying refnr.txt to reffs1t
@@ -24,6 +25,10 @@ python pre-migration\identer\parse_idents.py
 python pre-migration\identer\populate_refgeo_ident.py
 
 
+REM SKITSER
+python pre-migration\skitser\download_skitser.py
+python pre-migration\skitser\populate_skitser.py
+
 REM ============================ Migration ==================================
 
 REM sqlplus -S %CON% @sqlplus.sql 2> errors.log
@@ -31,11 +36,11 @@ REM sqlplus -S %CON% @sqlplus.sql 2> errors.log
 echo Migration\ClearDB.sql
 echo exit | sqlplus -S %CON% @Migration\ClearDB.sql > logs\ClearDB.txt
 
-echo Migration\disable_triggers.sql
-echo exit | sqlplus -S %CON% @Migration\disable_triggers.sql > logs\disable_triggers.txt
-
 echo DDL.sql
 echo exit | sqlplus -S %CON% @DDL.sql > logs\DDL.txt
+
+echo Migration\disable_triggers.sql
+echo exit | sqlplus -S %CON% @Migration\disable_triggers.sql > logs\disable_triggers.txt
 
 echo insertFIRERows.sql
 echo exit | sqlplus -S %CON% @insertFIRERows.sql > logs\insertFIRERows.txt
