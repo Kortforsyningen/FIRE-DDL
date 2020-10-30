@@ -13,6 +13,7 @@ FILE = BASE / Path('identer.json')
 with open(FILE, 'r') as f:
     identer = json.load(f)
 
+print(len(identer))
 
 con = cx_Oracle.connect(f'{usr}/{pwd}@{server}:{port}/{service}', encoding='UTF-8', nencoding='UTF-8')
 cursor = con.cursor()

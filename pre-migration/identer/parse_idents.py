@@ -31,23 +31,25 @@ def has_region(ident: str) -> bool:
 def parse_ident_type(ident: str, region: str) -> str:
     ident = ident.strip()  # We don't want unwanted whitespace poluting the search
 
-    if re.match("^\D\w\w\w$", ident):
+    if re.match(r"^\D\w\w\w$", ident):
         return "GNSS"
 
-    if re.match("^\w{0,2}[\w\s]-\d{2}-[\w|\s|\.]{1,6}([.]\d{1,4})?$", ident):
+    if re.match(r"^\w{0,2}[\w\s]-\d{2}-[\w|\s|\.]{1,6}([.]\d{1,4})?$", ident):
+        if region != "DK":
+            return "ekstern"
         return "landsnr"
 
-    if re.match("^81\s?\d{3}$", ident) and region not in REGIONS:
+    if re.match(r"^81\s?\d{3}$", ident) and region not in REGIONS:
         return "jessen"
 
-    if re.match("^G\.[IM]\.\d{1,4}(/\d{2,4})?(.\d)?$", ident):
+    if re.match(r"^G\.[IM]\.\d{1,4}(/\d{2,4})?(.\d)?$", ident):
         return "GI"
 
-    if re.match("^\d{4}/\w", ident):
+    if re.match(r"^\d{4}/\w", ident):
         return "ekstern"
 
     # matcher identer i stil med "201 051.2010", 3 423.1 og "10 001"
-    if re.match("^\d{1,6}(([.]\d{1,4})|([a-zA-Z]\d?))?$", ident):
+    if re.match(r"^\d{1,6}(([.]\d{1,4})|([a-zA-Z]\d?))?$", ident):
             return "station"
 
     return "diverse"
@@ -65,18 +67,18 @@ def parse_idents():
         with click.progressbar(
             ident_fil, label="Parsing idents", length=len(refnumre)
         ) as identer_progress:
-            for i, (line, refnr) in enumerate(zip(identer_progress, refnumre)):
+            for line, refnr in zip(identer_progress, refnumre):
 
                 # Split before region when only one space between idents
                 line = re.sub("(\w)(\s{1,})" + f"({REGIONS_REGEX})", r"\1~\3", line)
                 #print(line)
 
                 # Reduce to only one space between region and ident
-                line = re.sub(f"({REGIONS_REGEX}) (\s*)(\w)", r"\1 \3", line)
+                line = re.sub(fr"({REGIONS_REGEX}) (\s*)(\w)", r"\1 \3", line)
                 #print(line)
 
                 # Split on two or more spaces
-                line = re.sub("(\w)(\s{2,})(\w)", r"\1~\3", line)
+                line = re.sub(r"(\w)(\s{2,})(\w)", r"\1~\3", line)
                 #print(line)
 
                 # list(dict.fromkeys()) removes duplicate entries and preserves order
@@ -95,7 +97,7 @@ def parse_idents():
 
                     # Strip all singular spaces
                     # code = re.sub("(\S)(\s)(\S)", r'\1\3', code).strip()
-                    code = re.sub("(\s)(\S)", r"\2", code).strip()
+                    code = re.sub(r"(\s)(\S)", r"\2", code).strip()
 
                     # Add country code if present
                     ident_type = parse_ident_type(code, region)
@@ -157,6 +159,7 @@ def test():
         ("DK", "G.M.1"): "GI",
         ("DK", "G.M.901/902"): "GI",
         ("DK", "G.M.35/36.1"): "GI",
+        ("SE", "22-45-100501"): "ekstern"
 
     }
 
