@@ -35,7 +35,7 @@ def parse_ident_type(ident: str, region: str) -> str:
         return "GNSS"
 
     if re.match(r"^\w{0,2}[\w\s]-\d{2}-[\w|\s|\.]{1,6}([.]\d{1,4})?$", ident):
-        if region != "DK":
+        if region not in ("", "DK"):
             return "ekstern"
         return "landsnr"
 
