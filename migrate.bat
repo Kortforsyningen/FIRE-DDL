@@ -97,6 +97,7 @@ REM ========================== Post migration ================================
 python post-migration\dvr90net\indset_dvr90net.py
 python post-migration\indset_fundamentalpunkter.py
 python post-migration\GR96_UTM_coordinates.py
+python post-migration\luk_negativ_mv_status.py
 
 echo ========================== ERRORS ================================
 grep ERROR logs/*.txt
